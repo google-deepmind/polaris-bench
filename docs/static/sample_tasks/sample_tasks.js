@@ -1,0 +1,362 @@
+window.sampleTasksData = [
+  {
+    "id": "sudoku",
+    "name": "Sudoku",
+    "category": "algo",
+    "category_name": "Algorithmic Logic & Simulation",
+    "index": "sudoku_001",
+    "answer": "D",
+    "cartesian": {
+      "image": "static/sample_tasks/images/sudoku/sudoku_sudoku_001_cartesian.png",
+      "gh_image": "images/sudoku/sudoku_sudoku_001_cartesian.png",
+      "question": "In this 9x9 Sudoku puzzle, each row, each column, and each outlined region (shown by color) must contain all numbers from 1 to 9 exactly once. Rows are numbered 1 to 9 from top to bottom, and columns are numbered 1 to 9 from left to right.\n\nWhat number should replace the '?' in the highlighted cell (row 5, column 9)?\n\n<image_1>\n(A) 2\n(B) 3\n(C) 5\n(D) 8\n(E) 9"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/sudoku/sudoku_sudoku_001_polar.png",
+      "gh_image": "images/sudoku/sudoku_sudoku_001_polar.png",
+      "question": "In this polar Sudoku puzzle (9 rings \u00d7 9 sectors), each ring, each sector, and each outlined region (shown by color) must contain all numbers from 1 to 9 exactly once. The rings are numbered 1 to 9 from the innermost to the outermost ring. The sectors are numbered 1 to 9 clockwise starting from the top (12 o'clock).\n\nWhat number should replace the '?' in the highlighted cell (ring 5, sector 9)?\n\n<image_1>\n(A) 2\n(B) 3\n(C) 5\n(D) 8\n(E) 9"
+    }
+  },
+  {
+    "id": "four_color",
+    "name": "Four Color",
+    "category": "algo",
+    "category_name": "Algorithmic Logic & Simulation",
+    "index": "four_color_001",
+    "answer": "A",
+    "cartesian": {
+      "image": "static/sample_tasks/images/four_color/four_color_four_color_001_cartesian.png",
+      "gh_image": "images/four_color/four_color_four_color_001_cartesian.png",
+      "question": "In the diagram below, two neighbouring cells are never allowed to have the same color. Which puzzle piece has to be placed in the gap so that this rule is followed? Note: You can rotate the pieces.\n(A)\n(B)\n(C)\n(D)\n(E)"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/four_color/four_color_four_color_001_polar.png",
+      "gh_image": "images/four_color/four_color_four_color_001_polar.png",
+      "question": "In the diagram below, two neighbouring cells are never allowed to have the same color. Which puzzle piece has to be placed in the gap so that this rule is followed? Note: You can rotate the pieces.\n(A)\n(B)\n(C)\n(D)\n(E)"
+    }
+  },
+  {
+    "id": "n_queens",
+    "name": "N-Queens",
+    "category": "algo",
+    "category_name": "Algorithmic Logic & Simulation",
+    "index": "n_queens_001",
+    "answer": "C",
+    "cartesian": {
+      "image": "static/sample_tasks/images/n_queens/n_queens_n_queens_001_cartesian.png",
+      "gh_image": "images/n_queens/n_queens_n_queens_001_cartesian.png",
+      "question": "In this 5x5 chessboard, 3 queens have been placed. To complete the 5-Queens puzzle (where no two queens share the same row, column, or diagonal), 2 more queens need to be placed.\n\nRows are numbered 1 to 5 from top to bottom, and columns are numbered 1 to 5 from left to right.\n\nFocus on the highlighted row (row 2). In which column should the queen for this row be placed?\n\n<image_1>\n(A) 1\n(B) 2\n(C) 3\n(D) 4\n(E) 5"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/n_queens/n_queens_n_queens_001_polar.png",
+      "gh_image": "images/n_queens/n_queens_n_queens_001_polar.png",
+      "question": "In this polar 5-Queens puzzle (5 rings \u00d7 5 sectors), 3 queens have been placed. To complete the 5-Queens puzzle (where no two queens share the same ring, sector, or diagonal), 2 more queens need to be placed.\n\nThe rings are numbered 1 to 5 from the innermost to the outermost ring. The sectors are numbered 1 to 5 clockwise starting from the thick wall at the top (12 o'clock).\n(Note: The board is NOT continuous! Diagonals do NOT wrap around the thick boundary wall where the ring numbers are located.)\n\nFocus on the highlighted ring (ring 2). In which sector should the queen for this ring be placed?\n\n<image_1>\n(A) 1\n(B) 2\n(C) 3\n(D) 4\n(E) 5"
+    }
+  },
+  {
+    "id": "bouncing_point",
+    "name": "Bouncing Point",
+    "category": "algo",
+    "category_name": "Algorithmic Logic & Simulation",
+    "index": "bouncing_point_001",
+    "answer": "(3, 5)",
+    "cartesian": {
+      "image": "static/sample_tasks/images/bouncing_point/bouncing_point_bouncing_point_001_cartesian.png",
+      "gh_image": "images/bouncing_point/bouncing_point_bouncing_point_001_cartesian.png",
+      "question": "The image shows a grid with a red dot at the starting position (1, 1) in the bottom-left cell. The X-coordinate (column) increases to the right, and the Y-coordinate (row) increases upwards.\n\nAt each step, the point's X and Y coordinates change simultaneously. It moves at a constant speed along each axis: it always moves 2 cell(s) per step along the X-axis, and it always moves 4 cell(s) per step along the Y-axis. When it reaches the boundary of the grid on an axis, it reverses direction on that axis, bouncing back and forth.\n\n<image_1>\n\nWhat will be the (X, Y) coordinate of the point after 85 steps?\n\nAnswer in the format: (X, Y)"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/bouncing_point/bouncing_point_bouncing_point_001_polar.png",
+      "gh_image": "images/bouncing_point/bouncing_point_bouncing_point_001_polar.png",
+      "question": "The image shows a polar grid with a red dot at the starting position (Sector 1, Ring 1). Sector 1 is indicated by the red text and straight arrow, and sector numbers increase in the clockwise direction (indicated by the curved arrow). Ring 1 is the innermost ring, and ring numbers increase outwards.\n\nAt each step, the point moves simultaneously through the sectors and rings. It moves at a constant speed: it always advances 2 sector(s) clockwise per step, and it always moves 4 ring(s) per step. It loops continuously around the sectors (after the last sector, it wraps back to Sector 1), but when it reaches the innermost or outermost ring boundary, it reverses direction, bouncing back and forth along the rings.\n\n<image_1>\n\nWhat will be the (Sector, Ring) coordinate of the point after 85 steps?\n\nAnswer in the format: (Sector, Ring)"
+    }
+  },
+  {
+    "id": "path_counting",
+    "name": "Path Counting",
+    "category": "comb",
+    "category_name": "Combinatorics & Probability",
+    "index": "path_counting_001",
+    "answer": "D",
+    "cartesian": {
+      "image": "static/sample_tasks/images/path_counting/path_counting_path_counting_001_cartesian.png",
+      "gh_image": "images/path_counting/path_counting_path_counting_001_cartesian.png",
+      "question": "Max and Moritz have drawn out a grid on the playground, together with some obstacles on the cell boundaries (shown as thick red lines). They want to walk from P to Q using the shortest route, avoiding the obstacles and always crossing a common edge to go from the centre of one cell to the centre of the next. How many such shortest paths are there from P to Q?\n(Grid size: 4x4)\n(A) 1\n(B) 2\n(C) 5\n(D) 6\n(E) 8"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/path_counting/path_counting_path_counting_001_polar.png",
+      "gh_image": "images/path_counting/path_counting_path_counting_001_polar.png",
+      "question": "Max and Moritz have drawn out a grid on the playground, together with some obstacles on the cell boundaries (shown as thick red lines). They want to walk from P to Q using the shortest route, avoiding the obstacles and always crossing a common edge to go from the centre of one cell to the centre of the next. How many such shortest paths are there from P to Q?\n(Grid size: 4x4)\n(A) 1\n(B) 2\n(C) 5\n(D) 6\n(E) 8"
+    }
+  },
+  {
+    "id": "lattice_paths",
+    "name": "Lattice Paths",
+    "category": "comb",
+    "category_name": "Combinatorics & Probability",
+    "index": "lattice_paths_001",
+    "answer": "11",
+    "cartesian": {
+      "image": "static/sample_tasks/images/lattice_paths/lattice_paths_lattice_paths_001_cartesian.png",
+      "gh_image": "images/lattice_paths/lattice_paths_lattice_paths_001_cartesian.png",
+      "question": "A mouse wants to navigate from the 'Start' dot to the 'End' dot in the grid below. It can only move from one dot to an adjacent dot either to the right, downwards, or diagonally down-right. How many distinct valid paths are there?"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/lattice_paths/lattice_paths_lattice_paths_001_polar.png",
+      "gh_image": "images/lattice_paths/lattice_paths_lattice_paths_001_polar.png",
+      "question": "A mouse wants to navigate from the 'Start' dot to the 'End' dot in the polar grid below. It can only move from one dot to an adjacent dot either clockwise (along the circular arcs), outward (along the straight lines radiating from the center), or diagonally outward-clockwise. How many distinct valid paths are there?"
+    }
+  },
+  {
+    "id": "area_counting",
+    "name": "Area Counting",
+    "category": "comb",
+    "category_name": "Combinatorics & Probability",
+    "index": "area_counting_001",
+    "answer": "29",
+    "cartesian": {
+      "image": "static/sample_tasks/images/area_counting/area_counting_area_counting_001_cartesian.png",
+      "gh_image": "images/area_counting/area_counting_area_counting_001_cartesian.png",
+      "question": "How many gray cells are there in the figure?"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/area_counting/area_counting_area_counting_001_polar.png",
+      "gh_image": "images/area_counting/area_counting_area_counting_001_polar.png",
+      "question": "How many gray cells are there in the figure?"
+    }
+  },
+  {
+    "id": "curve_length",
+    "name": "Curve Length",
+    "category": "comb",
+    "category_name": "Combinatorics & Probability",
+    "index": "curve_length_001",
+    "answer": "C",
+    "cartesian": {
+      "image": "static/sample_tasks/images/curve_length/curve_length_curve_length_001_cartesian.png",
+      "gh_image": "images/curve_length/curve_length_curve_length_001_cartesian.png",
+      "question": "A floor is covered with tile blocks of different sizes. Each basic edge segment of the grid (the side of the smallest square block) has a length of 5 cm. A green snake, featuring a red tongue at its head, is drawn traversing exactly along the tile boundaries. How long is the snake in total from head to tail?\n\n<image_1>\n(A) 115 cm\n(B) 120 cm\n(C) 125 cm\n(D) 130 cm\n(E) 135 cm"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/curve_length/curve_length_curve_length_001_polar.png",
+      "gh_image": "images/curve_length/curve_length_curve_length_001_polar.png",
+      "question": "A floor is covered with tile blocks of different sizes. Each basic edge segment of the grid (whether a circular arc between two radial lines, or a radial segment between two rings) has a length of 5 cm. A green snake, featuring a red tongue at its head, is drawn traversing exactly along the tile boundaries. How long is the snake in total from head to tail?\n\n<image_1>\n(A) 115 cm\n(B) 120 cm\n(C) 125 cm\n(D) 130 cm\n(E) 135 cm"
+    }
+  },
+  {
+    "id": "maze",
+    "name": "Maze",
+    "category": "nav",
+    "category_name": "Navigation & Routing",
+    "index": "maze_001",
+    "answer": "D",
+    "cartesian": {
+      "image": "static/sample_tasks/images/maze/maze_maze_001_cartesian.png",
+      "gh_image": "images/maze/maze_maze_001_cartesian.png",
+      "question": "Which entrance leads out from the exit?\nA\nB\nC\nD"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/maze/maze_maze_001_polar.png",
+      "gh_image": "images/maze/maze_maze_001_polar.png",
+      "question": "Which entrance leads out from the exit?\nA\nB\nC\nD"
+    }
+  },
+  {
+    "id": "absolute_navigation",
+    "name": "Absolute Navigation",
+    "category": "nav",
+    "category_name": "Navigation & Routing",
+    "index": "example_001",
+    "answer": "B",
+    "cartesian": {
+      "image": "static/sample_tasks/images/absolute_navigation/absolute_navigation_example_001_cartesian.png",
+      "gh_image": "images/absolute_navigation/absolute_navigation_example_001_cartesian.png",
+      "question": "The Turtle starts at the Nest. The black arrow line shows its path to the Sunflower. Cacti and ALL thick solid black borders block movement. If a move command directs the Turtle into a cactus or a wall, it bumps into it, STOPS COMPLETELY, and ignores ALL remaining commands in the sequence. In this grid, all four outer edges (Top, Bottom, Left, Right) are SOLID WALLS. If it instead attempts to follow the absolute movement sequence shown in the light yellow box, which flower does it permanently stop at?\n(A) Sunflower\n(B) Bouquet\n(C) Hibiscus\n(D) Rose\n(E) Lotus\n(F) Cherry_Blossom"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/absolute_navigation/absolute_navigation_example_001_polar.png",
+      "gh_image": "images/absolute_navigation/absolute_navigation_example_001_polar.png",
+      "question": "The Turtle starts at the Nest. The black arrow line shows its path to the Sunflower. Cacti and ALL thick solid black borders block movement. If a move command directs the Turtle into a cactus or a wall, it bumps into it, STOPS COMPLETELY, and ignores ALL remaining commands in the sequence. In this circular board, the inner circle, outer circle, and the thick radial dividing line are SOLID WALLS. If it instead attempts to follow the movement sequence shown in the light cyan box at the bottom, which flower does it permanently stop at?\n(A) Sunflower\n(B) Bouquet\n(C) Hibiscus\n(D) Rose\n(E) Lotus\n(F) Cherry_Blossom"
+    }
+  },
+  {
+    "id": "wrapping_navigation",
+    "name": "Wrapping Navigation",
+    "category": "nav",
+    "category_name": "Navigation & Routing",
+    "index": "example_001",
+    "answer": "B",
+    "cartesian": {
+      "image": "static/sample_tasks/images/wrapping_navigation/wrapping_navigation_example_001_cartesian.png",
+      "gh_image": "images/wrapping_navigation/wrapping_navigation_example_001_cartesian.png",
+      "question": "The Ant starts at the House. The black arrow line shows its path to the Bee. Rocks block movement. If a move command directs the Ant into a rock or a solid wall, it bumps into it, STOPS COMPLETELY, and ignores ALL remaining commands in the sequence. The board wraps horizontally (moving off the right edge brings the Ant to the left edge). Top and bottom edges are solid walls. If it instead attempts to follow the absolute movement sequence shown in the light yellow box, which animal does it permanently stop at?\n(A) Bee\n(B) Snail\n(C) Frog\n(D) Caterpillar\n(E) Ladybug\n(F) Butterfly"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/wrapping_navigation/wrapping_navigation_example_001_polar.png",
+      "gh_image": "images/wrapping_navigation/wrapping_navigation_example_001_polar.png",
+      "question": "The Ant starts at the House. The black arrow line shows its path to the Bee. Rocks block movement. If a move command directs the Ant into a rock or a solid wall, it bumps into it, STOPS COMPLETELY, and ignores ALL remaining commands in the sequence. If it instead attempts to follow the movement sequence shown in the light cyan box at the bottom, which animal does it permanently stop at?\n(A) Bee\n(B) Snail\n(C) Frog\n(D) Caterpillar\n(E) Ladybug\n(F) Butterfly"
+    }
+  },
+  {
+    "id": "shortest_path",
+    "name": "Shortest Path",
+    "category": "nav",
+    "category_name": "Navigation & Routing",
+    "index": "shortest_path_001",
+    "answer": "E",
+    "cartesian": {
+      "image": "static/sample_tasks/images/shortest_path/shortest_path_shortest_path_001_cartesian.png",
+      "gh_image": "images/shortest_path/shortest_path_shortest_path_001_cartesian.png",
+      "question": "Between two points four routes are drawn. Which route is the shortest?\n(A)\n(B)\n(C)\n(D)\n(E) All routes are equal"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/shortest_path/shortest_path_shortest_path_001_polar.png",
+      "gh_image": "images/shortest_path/shortest_path_shortest_path_001_polar.png",
+      "question": "Assuming we count the diagonal line in each cell as 1 unit of length, ignoring size differences in the polar grid, which route is the shortest?\n(A)\n(B)\n(C)\n(D)\n(E) All routes are equal"
+    }
+  },
+  {
+    "id": "grid_rotation",
+    "name": "Grid Rotation",
+    "category": "spatial",
+    "category_name": "Spatial Transformation & Geometry",
+    "index": "grid_rotation_001",
+    "answer": "D",
+    "cartesian": {
+      "image": "static/sample_tasks/images/grid_rotation/grid_rotation_grid_rotation_001_cartesian.png",
+      "gh_image": "images/grid_rotation/grid_rotation_grid_rotation_001_cartesian.png",
+      "question": "The board beside is formed by little white and shaded squares. After a ninety-degree counter-clockwise turn, how can this board appear?\n(A)\n(B)\n(C)\n(D)\n(E)"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/grid_rotation/grid_rotation_grid_rotation_001_polar.png",
+      "gh_image": "images/grid_rotation/grid_rotation_grid_rotation_001_polar.png",
+      "question": "The board beside is formed by little white and shaded circles. After a ninety-degree counter-clockwise turn, how can this board appear?\n(A)\n(B)\n(C)\n(D)\n(E)"
+    }
+  },
+  {
+    "id": "grid_folding",
+    "name": "Grid Folding",
+    "category": "spatial",
+    "category_name": "Spatial Transformation & Geometry",
+    "index": "grid_folding_001",
+    "answer": "C",
+    "cartesian": {
+      "image": "static/sample_tasks/images/grid_folding/grid_folding_grid_folding_001_cartesian.png",
+      "gh_image": "images/grid_folding/grid_folding_grid_folding_001_cartesian.png",
+      "question": "A page is folded along the thick line as shown. Which letter will NOT be covered by a grey square?\n(A)\n(B)\n(C)\n(D)\n(E)"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/grid_folding/grid_folding_grid_folding_001_polar.png",
+      "gh_image": "images/grid_folding/grid_folding_grid_folding_001_polar.png",
+      "question": "A page is folded along the thick line as shown. Which letter will NOT be covered by a grey cell?\n(A)\n(B)\n(C)\n(D)\n(E)"
+    }
+  },
+  {
+    "id": "mirror_reflection",
+    "name": "Mirror Reflection",
+    "category": "spatial",
+    "category_name": "Spatial Transformation & Geometry",
+    "index": "mirror_reflection_001",
+    "answer": "C",
+    "cartesian": {
+      "image": "static/sample_tasks/images/mirror_reflection/mirror_reflection_mirror_reflection_001_cartesian.png",
+      "gh_image": "images/mirror_reflection/mirror_reflection_mirror_reflection_001_cartesian.png",
+      "question": "Based on the image, the right half is a mirror image of the left half. Choose the most suitable one to fill in the question mark.\n(A)\n(B)\n(C)\n(D)"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/mirror_reflection/mirror_reflection_mirror_reflection_001_polar.png",
+      "gh_image": "images/mirror_reflection/mirror_reflection_mirror_reflection_001_polar.png",
+      "question": "Based on the image, the right half is a mirror image of the left half. Choose the most suitable one to fill in the question mark.\n(A)\n(B)\n(C)\n(D)"
+    }
+  },
+  {
+    "id": "pipe_lengths",
+    "name": "Pipe Lengths",
+    "category": "spatial",
+    "category_name": "Spatial Transformation & Geometry",
+    "index": "pipe_lengths_001",
+    "answer": "26,2",
+    "cartesian": {
+      "image": "static/sample_tasks/images/pipe_lengths/pipe_lengths_pipe_lengths_001_cartesian.png",
+      "gh_image": "images/pipe_lengths/pipe_lengths_pipe_lengths_001_cartesian.png",
+      "question": "There are multiple pipes of different colors in the image, and the pipes fill the entire grid. Counting the start and end cells, how many cells do the pipes pass through, in descending order? (Answer format is like: 5,3,3,1)"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/pipe_lengths/pipe_lengths_pipe_lengths_001_polar.png",
+      "gh_image": "images/pipe_lengths/pipe_lengths_pipe_lengths_001_polar.png",
+      "question": "There are multiple pipes of different colors in the image, and the pipes fill the entire grid. Counting the start and end cells, how many cells do the pipes pass through, in descending order? (Answer format is like: 5,3,3,1)"
+    }
+  },
+  {
+    "id": "shape_fitting",
+    "name": "Shape Fitting",
+    "category": "visual",
+    "category_name": "Visual Pattern Matching",
+    "index": "shape_fitting_001",
+    "answer": "C",
+    "cartesian": {
+      "image": "static/sample_tasks/images/shape_fitting/shape_fitting_shape_fitting_001_cartesian.png",
+      "gh_image": "images/shape_fitting/shape_fitting_shape_fitting_001_cartesian.png",
+      "question": "Choose the appropriate option to fill in the blank, so that the image is complete.\nA\nB\nC"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/shape_fitting/shape_fitting_shape_fitting_001_polar.png",
+      "gh_image": "images/shape_fitting/shape_fitting_shape_fitting_001_polar.png",
+      "question": "Choose the appropriate option to fill in the blank, so that the image is complete.\nA\nB\nC"
+    }
+  },
+  {
+    "id": "pattern_completion",
+    "name": "Pattern Completion",
+    "category": "visual",
+    "category_name": "Visual Pattern Matching",
+    "index": "pattern_completion_001",
+    "answer": "A",
+    "cartesian": {
+      "image": "static/sample_tasks/images/pattern_completion/pattern_completion_pattern_completion_001_cartesian.png",
+      "gh_image": "images/pattern_completion/pattern_completion_pattern_completion_001_cartesian.png",
+      "question": "From the options below, choose the appropriate pattern to fill the blank in the pattern above, so that the pattern is complete.\nA\nB\nC\nD"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/pattern_completion/pattern_completion_pattern_completion_001_polar.png",
+      "gh_image": "images/pattern_completion/pattern_completion_pattern_completion_001_polar.png",
+      "question": "From the options below, choose the appropriate pattern to fill the blank in the pattern above, so that the pattern is complete.\nA\nB\nC\nD"
+    }
+  },
+  {
+    "id": "jigsaw_matching",
+    "name": "Jigsaw Matching",
+    "category": "visual",
+    "category_name": "Visual Pattern Matching",
+    "index": "jigsaw_matching_001",
+    "answer": "D",
+    "cartesian": {
+      "image": "static/sample_tasks/images/jigsaw_matching/jigsaw_matching_jigsaw_matching_001_cartesian.png",
+      "gh_image": "images/jigsaw_matching/jigsaw_matching_jigsaw_matching_001_cartesian.png",
+      "question": "Alice has these four jigsaw pieces: Which two can she put together to form the complete grid?\n(A) 1 and 2\n(B) 3 and 4\n(C) 2 and 3\n(D) 2 and 4\n(E) 1 and 4"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/jigsaw_matching/jigsaw_matching_jigsaw_matching_001_polar.png",
+      "gh_image": "images/jigsaw_matching/jigsaw_matching_jigsaw_matching_001_polar.png",
+      "question": "Alice has these four jigsaw pieces: Which two can she put together to form the complete polar grid?\n(A) 1 and 2\n(B) 3 and 4\n(C) 2 and 3\n(D) 2 and 4\n(E) 1 and 4"
+    }
+  },
+  {
+    "id": "fragment_matching",
+    "name": "Fragment Matching",
+    "category": "visual",
+    "category_name": "Visual Pattern Matching",
+    "index": "fragment_matching_001",
+    "answer": "C",
+    "cartesian": {
+      "image": "static/sample_tasks/images/fragment_matching/fragment_matching_fragment_matching_001_cartesian.png",
+      "gh_image": "images/fragment_matching/fragment_matching_fragment_matching_001_cartesian.png",
+      "question": "The diagram shows a grid made of 9 vertical and 5 horizontal lines with varying spacings. A rectangular piece was cut from the grid. Which part was cut from the grid?\n(A)\n(B)\n(C)\n(D)\n(E)"
+    },
+    "polar": {
+      "image": "static/sample_tasks/images/fragment_matching/fragment_matching_fragment_matching_001_polar.png",
+      "gh_image": "images/fragment_matching/fragment_matching_fragment_matching_001_polar.png",
+      "question": "The diagram shows a ring grid made of 5 concentric arcs and 8 radial spokes with varying spacings. A section was cut from the ring. Which part was cut from the ring grid?\n(A)\n(B)\n(C)\n(D)\n(E)"
+    }
+  }
+];

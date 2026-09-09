@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "polaris-bench"
+version = "0.1.0"
+description = "The Cartesian Shortcut: Re-evaluate Vision Reasoning in Polar Coordinate Space"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "Apache-2.0"}
+authors = [
+  {name = "Xia Hu"},
+  {name = "Zhenrui Yue"},
+  {name = "Brian Potetz"},
+  {name = "Howard Zhou"},
+  {name = "Leonidas Guibas"},
+  {name = "Chun-Ta Lu"},
+  {name = "Zhicheng Wang"}
+]
+keywords = ["multimodal", "vision-language-models", "spatial-reasoning", "polar-coordinates", "benchmark"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+dependencies = [
+  "datasets>=2.14.0",
+  "Pillow>=9.0.0",
+  "tqdm>=4.60.0",
+  "numpy>=1.21.0"
+]
+
+[project.urls]
+Homepage = "https://google-deepmind.github.io/polaris-bench"
+Repository = "https://github.com/google-deepmind/polaris-bench"
+Paper = "https://arxiv.org/abs/2605.09883"

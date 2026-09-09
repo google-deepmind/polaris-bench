@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polaris-Bench: The Cartesian Shortcut</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; color: #1e293b; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    .lb-row:nth-child(odd) { background: #f0f4ff; }
+    .lb-row:nth-child(even) { background: #fff; }
+    .lb-row:hover { background: #e0e7ff !important; }
+    .lb-row td { border-bottom: 1px solid #e2e8f0; }
+    .lb-sortable { cursor: pointer; user-select: none; transition: background 0.15s; }
+    .lb-sortable:hover { background: #3730a3 !important; }
+    .task-tab { cursor: pointer; transition: all 0.15s; }
+    .task-tab:hover { background: #e0e7ff; }
+    .task-tab.active { background: #4338ca; color: white; }
+    .lb-cat-tab { cursor: pointer; transition: all 0.15s; }
+    .lb-cat-tab:hover { background: #c7d2fe; }
+    .lb-cat-tab.active { background: #4338ca; color: white; font-weight: 600; }
+    .sticky-col-1 { position: sticky; left: 0; z-index: 10; }
+    .sticky-col-2 { position: sticky; left: 28px; z-index: 10; }
+    th.sticky-col-1, th.sticky-col-2 { background: #4f46e5; z-index: 20; }
+    tr.lb-row:nth-child(odd) .sticky-col-1, tr.lb-row:nth-child(odd) .sticky-col-2 { background: #f0f4ff; }
+    tr.lb-row:nth-child(even) .sticky-col-1, tr.lb-row:nth-child(even) .sticky-col-2 { background: #ffffff; }
+    tr.lb-row:hover .sticky-col-1, tr.lb-row:hover .sticky-col-2 { background: #e0e7ff !important; }
+    tr.human-row .sticky-col-1, tr.human-row .sticky-col-2 { background: #fef3c7 !important; }
+    tr.random-row .sticky-col-1, tr.random-row .sticky-col-2 { background: #f8fafc !important; }
+    .content-section { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 28px 32px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    @media (max-width: 768px) { .content-section { padding: 20px 16px; } }
+  </style>
+  <script src="static/per_task_data.js"></script>
+  <script src="static/sample_tasks/sample_tasks.js"></script>
+</head>
+<body class="bg-slate-50 antialiased">
+
+  <!-- ====== HERO HEADER ====== -->
+  <header class="relative bg-gradient-to-b from-indigo-100/40 via-slate-50 to-slate-50 border-b border-slate-200/60 pt-14 pb-10 px-4 text-center mb-8">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-xs text-slate-500 font-semibold tracking-[0.25em] uppercase mb-4">Google DeepMind</p>
+      <h1 class="text-[30px] md:text-[40px] font-bold text-slate-900 leading-[1.15] mb-5 max-w-3xl mx-auto">
+        The Cartesian Shortcut: Re-evaluate Vision Reasoning in Polar Coordinate Space
+      </h1>
+      <p class="text-[14px] text-slate-800 mb-2.5 leading-relaxed">
+        <a href="https://scholar.google.com/citations?user=1PT3EQoAAAAJ" target="_blank" class="text-blue-600 hover:underline">Xia Hu</a><sup>1</sup>,
+        <a href="https://scholar.google.com/citations?user=d901d8AAAAAJ" target="_blank" class="text-blue-600 hover:underline">Zhenrui Yue</a><sup>1</sup>,
+        <a href="https://scholar.google.com/citations?user=pG-Kj_IAAAAJ" target="_blank" class="text-blue-600 hover:underline">Brian Potetz</a><sup>1</sup>,
+        <a href="https://scholar.google.com/citations?user=c_3w1c4AAAAJ" target="_blank" class="text-blue-600 hover:underline">Howard Zhou</a><sup>1</sup>,
+        <a href="https://scholar.google.com/citations?user=K406kGgAAAAJ" target="_blank" class="text-blue-600 hover:underline">Leonidas Guibas</a><sup>1,2</sup>,
+        <a href="https://scholar.google.com/citations?user=xN1T12AAAAAJ" target="_blank" class="text-blue-600 hover:underline">Chun-Ta Lu</a><sup>3</sup>,
+        <a href="https://scholar.google.com/citations?user=G4581w0AAAAJ" target="_blank" class="text-blue-600 hover:underline">Zhicheng Wang</a><sup>1</sup>
+      </p>
+      <p class="text-[13px] text-slate-700 mb-6"><sup>1</sup>Google DeepMind &nbsp;&bull;&nbsp; <sup>2</sup>Stanford University &nbsp;&bull;&nbsp; <sup>3</sup>Google Research</p>
+      <div class="flex flex-wrap justify-center items-center gap-2.5">
+        <a href="https://arxiv.org/abs/2605.09883" target="_blank" class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-slate-800 text-white text-[13px] font-medium hover:bg-slate-700 shadow-sm transition">
+          <i class="fa-solid fa-file-pdf text-[12px]"></i> Arxiv
+        </a>
+        <a href="https://github.com/google-deepmind/polaris-bench" target="_blank" class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-slate-800 text-white text-[13px] font-medium hover:bg-slate-700 shadow-sm transition">
+          <i class="fa-brands fa-github text-[14px]"></i> Github
+        </a>
+        <a href="https://huggingface.co/datasets/google/polaris-bench" target="_blank" class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-slate-800 text-white text-[13px] font-medium hover:bg-slate-700 shadow-sm transition">
+          &#129303; HuggingFace
+        </a>
+        <a href="#leaderboard" class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-slate-800 text-white text-[13px] font-medium hover:bg-slate-700 shadow-sm transition">
+          🏆 Leaderboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4">
+
+    <!-- ====== ABSTRACT ====== -->
+    <section class="content-section">
+      <h2 class="text-[20px] font-bold text-slate-900 mb-3 flex items-center gap-2">
+        <span class="w-1.5 h-5 bg-indigo-600 rounded-full inline-block"></span>
+        Abstract
+      </h2>
+      <p class="text-[14px] text-slate-700 leading-relaxed mb-3">
+        As current Multimodal Large Language Models rapidly saturate canonical visual reasoning benchmarks, a key question emerges: do these strong scores genuinely reflect robust visual understanding? We identify a pervasive vulnerability, the <strong>Cartesian Shortcut</strong>: visual reasoning benchmarks prevalently build on orthogonal grid-based layouts that can be readily discretized into explicit textual coordinates. Models systematically exploit this property, heavily leveraging text-based deductive reasoning to assist visual problem-solving.
+      </p>
+      <p class="text-[14px] text-slate-700 leading-relaxed">
+        To systematically dismantle this shortcut, we introduce <strong>Polaris-Bench</strong>, which re-formulates <strong>53 visual reasoning tasks</strong> in Polar coordinate space with paired Cartesian counterparts as reference, while preserving consistent logical constraints and task semantics, fundamentally breaking the orthogonal prior that models exploit. Comprehensive evaluation across 14 state-of-the-art MLLMs reveals that frontier models achieving 70&ndash;83% on Cartesian layouts collapse to 31&ndash;39% on Polar equivalents, with degradation persisting even under complete logical equivalence. Moreover, reasoning gains observed on Cartesian layouts are severely diminished on Polar equivalents. These findings expose a critical deficiency in current MLLMs: the lack of topology-invariant visual reasoning.
+      </p>
+    </section>
+
+    <!-- ====== THE CARTESIAN SHORTCUT ====== -->
+    <section class="content-section">
+      <div class="mb-5">
+        <img src="static/figures/intro.png" alt="The Cartesian Shortcut: Sudoku example" class="w-full rounded-lg">
+      </div>
+      <div class="pt-4 border-t border-slate-100">
+        <h2 class="text-[20px] font-bold text-slate-900 mb-3 flex items-center gap-2">
+          <span class="w-1.5 h-5 bg-indigo-600 rounded-full inline-block"></span>
+          The Cartesian Shortcut
+        </h2>
+        <p class="text-[14px] text-slate-600 leading-relaxed mb-3">
+          When evaluated on grid-based visual tasks such as Sudoku, maze navigation, or graph coloring, state-of-the-art multimodal LLMs don't actually "see" the image as a visual structure. Instead, they systematically discretize the orthogonal grid layout into textual coordinates (e.g., "Row 3, Column 4"), converting what should be a visual reasoning problem into a text manipulation exercise. We call this behavior the <strong>Cartesian Shortcut</strong>.
+        </p>
+        <p class="text-[14px] text-slate-600 leading-relaxed">
+          We analyze over 3,800 reasoning traces produced by frontier models across 9 established visual reasoning benchmarks. Models explicitly invoke grid coordinates in <strong>over 56%</strong> of their Chain-of-Thought responses; on certain tasks, Gemini-3.1 Pro and GPT-5.2 invoke spatial discretization in 79.6% and 87.7% of traces, respectively. This confirms that high accuracy on Cartesian grid benchmarks is substantially inflated by text-based coordinate deduction rather than genuine visual understanding.
+        </p>
+      </div>
+    </section>
+
+    <!-- ====== POLARIS-BENCH ====== -->
+    <section class="content-section">
+      <h2 class="text-[20px] font-bold text-slate-900 mb-3 flex items-center gap-2">
+        <span class="w-1.5 h-5 bg-indigo-600 rounded-full inline-block"></span>
+        Polaris-Bench
+      </h2>
+      <div class="md:flex md:gap-6 md:items-start">
+        <div class="w-full md:w-[70%]">
+          <p class="text-[13px] text-slate-600 leading-relaxed mb-2.5">
+            To rigorously test whether models can reason about visual structure independently of grid coordinates, we introduce <strong>Polaris-Bench</strong>, a benchmark that re-formulates <strong>53 visual reasoning tasks</strong> in Polar coordinate space, each paired with a topologically equivalent Cartesian counterpart.
+          </p>
+          <p class="text-[13px] text-slate-600 leading-relaxed">
+            Polar grids preserve the same structural relationships (adjacency, containment, connectivity) as Cartesian grids, but their curved, non-orthogonal layout makes coordinate-based text strategies ineffective. If a model truly understands the visual structure, its performance should remain consistent across coordinate systems. If it relies on the Cartesian Shortcut, its performance will collapse.
+          </p>
+        </div>
+        <div class="w-full md:w-[30%] md:flex-shrink-0 mt-4 md:mt-0">
+          <img src="static/figures/polar_taxonomy_sunburst.png" alt="Polaris-Bench task taxonomy" class="w-full mx-auto">
+          <p class="text-[10px] text-slate-400 text-center mt-1.5">5 categories, 15 sub-categories, 53 tasks.</p>
+        </div>
+      </div>
+      <!-- Task gallery (Figure 2) -->
+      <div class="mt-5 pt-4 border-t border-slate-100">
+        <img src="static/figures/polar_figure_representative_example.png" alt="Polaris-Bench representative task examples across categories" class="w-[90%] mx-auto block rounded-lg">
+        <p class="text-[11px] text-slate-400 text-center mt-2">Representative examples for each of the five core taxonomies in Polaris-Bench.</p>
+      </div>
+    </section>
+
+    <!-- ====== KEY FINDINGS ====== -->
+    <section class="content-section">
+      <h2 class="text-[20px] font-bold text-slate-900 mb-3 flex items-center gap-2">
+        <span class="w-1.5 h-5 bg-indigo-600 rounded-full inline-block"></span>
+        Key Findings
+      </h2>
+      <p class="text-[14px] text-slate-600 leading-relaxed mb-3">
+        We evaluate 14 state-of-the-art MLLMs on Polaris-Bench, including Gemini-3.1 Pro, GPT-5.2, Claude Sonnet 4.6, and open-weight models like Qwen3.5-397B and Gemma-4. If the Cartesian Shortcut hypothesis is correct, we should observe a dramatic performance drop when models are forced to reason in Polar space where coordinate-based text strategies no longer work.
+      </p>
+      <p class="text-[14px] text-slate-600 leading-relaxed mb-4">
+        The results confirm exactly this. As shown below (left), <strong>every evaluated model</strong> falls far below the topological invariance diagonal: Cartesian accuracy spans 19-83%, but Polar accuracy compresses into a narrow 19-39% band regardless of model capability, revealing a shared performance floor. Furthermore (right), reasoning mode gains that are substantial on Cartesian tasks (up to <strong>+50.8 pts</strong> for GPT-5.2) collapse to near zero on Polar, demonstrating that extended Chain-of-Thought reasoning primarily amplifies the Cartesian Shortcut rather than improving genuine visual understanding.
+      </p>
+      <img src="static/figures/overall_performance.png" alt="Performance overview" class="w-full rounded-lg mb-4">
+
+      <!-- Coordinate system comparison -->
+      <div class="pt-4 border-t border-slate-100">
+        <h3 class="text-[16px] font-semibold text-slate-800 mb-2">Does the Performance Collapse Generalize Beyond Polar?</h3>
+        <p class="text-[14px] text-slate-600 leading-relaxed mb-4">
+          To verify that the performance collapse is not an artifact of Polar coordinates specifically, we evaluate models on intermediate coordinate systems (Octagonal, Hexagonal) that progressively deviate from the orthogonal Cartesian layout. The results show a clear gradient: accuracy remains high on Cartesian and Octagonal (which still has near-orthogonal structure), then drops sharply on Hexagonal and Polar, confirming that the collapse tracks how far the layout deviates from the orthogonal grid that enables coordinate-based text strategies.
+        </p>
+        <div class="md:flex md:gap-6 md:items-center">
+          <div class="md:flex-1 flex flex-col items-center">
+            <img src="static/figures/word_search_example.png" alt="Same word search task in 4 coordinate systems" class="w-[60%] mx-auto block rounded-lg border border-slate-200 shadow-sm">
+            <p class="text-[11px] text-slate-400 text-center mt-2">Word Search in Cartesian, Octagonal, Hexagonal, and Polar coordinates.</p>
+          </div>
+          <div class="md:w-[50%] md:flex-shrink-0 mt-4 md:mt-0 flex flex-col items-center">
+            <img src="static/figures/layout_comparison.png" alt="Accuracy across coordinate systems" class="w-full rounded-lg">
+            <p class="text-[11px] text-slate-400 text-center mt-2">Sudoku accuracy across 4 coordinate systems. The drop tracks deviation from orthogonal grid structure.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== LEADERBOARD ====== -->
+    <section id="leaderboard" class="mb-5">
+      <div class="bg-gradient-to-b from-indigo-50 to-slate-50 rounded-xl border border-indigo-100 p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">Leaderboard</h2>
+            <p class="text-[11px] text-slate-500 mt-0.5">High reasoning mode. C = Cartesian, P = Polar accuracy (%). &Delta; = C&rarr;P drop. Click column headers to sort.</p>
+          </div>
+        </div>
+
+        <!-- Category tabs for leaderboard -->
+        <div class="flex flex-wrap gap-1.5 mb-3">
+          <button onclick="setLBView('overall')" id="lbv-overall" class="lb-cat-tab active text-[11px] px-3 py-1 rounded-full border border-indigo-200">Overall</button>
+          <button onclick="setLBView('algo')" id="lbv-algo" class="lb-cat-tab text-[11px] px-3 py-1 rounded-full border border-indigo-200">Algo. Logic &amp; Sim.</button>
+          <button onclick="setLBView('comb')" id="lbv-comb" class="lb-cat-tab text-[11px] px-3 py-1 rounded-full border border-indigo-200">Comb. &amp; Prob.</button>
+          <button onclick="setLBView('nav')" id="lbv-nav" class="lb-cat-tab text-[11px] px-3 py-1 rounded-full border border-indigo-200">Nav. &amp; Routing</button>
+          <button onclick="setLBView('spatial')" id="lbv-spatial" class="lb-cat-tab text-[11px] px-3 py-1 rounded-full border border-indigo-200">Spatial Trans.</button>
+          <button onclick="setLBView('visual')" id="lbv-visual" class="lb-cat-tab text-[11px] px-3 py-1 rounded-full border border-indigo-200">Visual Pattern</button>
+        </div>
+
+        <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white" id="lb-container"></div>
+      </div>
+    </section>
+
+    <!-- ====== POLARIS-BENCH EXAMPLES ====== -->
+    <section id="examples" class="content-section">
+      <h2 class="text-[20px] font-bold text-slate-900 mb-1 flex items-center gap-2">
+        <span class="w-1.5 h-5 bg-indigo-600 rounded-full inline-block"></span>
+        Task Examples
+      </h2>
+      <p class="text-[13px] text-slate-600 mb-3">
+        Paired Cartesian and Polar evaluation instances across 20 representative benchmark tasks.
+      </p>
+      <div class="flex flex-wrap gap-1.5 mb-2.5">
+        <button onclick="selectExampleCategory('algo')" id="cat-algo" class="task-tab active text-[11px] px-3 py-1 rounded-full border border-slate-200 font-medium">Algorithmic Logic &amp; Sim.</button>
+        <button onclick="selectExampleCategory('comb')" id="cat-comb" class="task-tab text-[11px] px-3 py-1 rounded-full border border-slate-200 font-medium">Combinatorics &amp; Prob.</button>
+        <button onclick="selectExampleCategory('nav')" id="cat-nav" class="task-tab text-[11px] px-3 py-1 rounded-full border border-slate-200 font-medium">Navigation &amp; Routing</button>
+        <button onclick="selectExampleCategory('spatial')" id="cat-spatial" class="task-tab text-[11px] px-3 py-1 rounded-full border border-slate-200 font-medium">Spatial Trans. &amp; Geom.</button>
+        <button onclick="selectExampleCategory('visual')" id="cat-visual" class="task-tab text-[11px] px-3 py-1 rounded-full border border-slate-200 font-medium">Visual Pattern Matching</button>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-3" id="task-buttons"></div>
+      <div id="example-card-container" class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ====== GETTING STARTED + CITATION ====== -->
+    <section class="content-section">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h2 class="text-[18px] font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span class="w-1.5 h-4 bg-indigo-600 rounded-full inline-block"></span>
+            Getting Started
+          </h2>
+          <p class="text-[12px] text-slate-600 mb-2">Load via HuggingFace <code class="text-[11px] bg-slate-100 px-1 py-0.5 rounded">datasets</code>. Evaluation scripts on <a href="https://github.com/google-deepmind/polaris-bench" class="text-blue-700 underline">GitHub</a>.</p>
+          <div class="bg-slate-900 rounded-lg p-3 text-[11px] text-slate-200 font-mono overflow-x-auto relative">
+            <button onclick="copyCode(this,'code-hf')" class="absolute top-1.5 right-1.5 text-[9px] px-1.5 py-0.5 bg-slate-700 hover:bg-slate-600 rounded text-slate-300 transition">Copy</button>
+<pre id="code-hf"><span class="text-indigo-400">from</span> datasets <span class="text-indigo-400">import</span> load_dataset
+
+ds = load_dataset(<span class="text-emerald-400">"google/polaris-bench"</span>, split=<span class="text-emerald-400">"test"</span>)
+s = ds[<span class="text-amber-300">0</span>]
+print(s[<span class="text-emerald-400">"task"</span>], s[<span class="text-emerald-400">"question_type"</span>])
+print(s[<span class="text-emerald-400">"question"</span>])
+s[<span class="text-emerald-400">"image"</span>].show()</pre>
+          </div>
+        </div>
+        <div>
+          <h2 class="text-[18px] font-bold text-slate-900 mb-2 flex items-center gap-2">
+            <span class="w-1.5 h-4 bg-indigo-600 rounded-full inline-block"></span>
+            Citation
+          </h2>
+          <div class="bg-slate-50 rounded-lg p-3 text-[11px] text-slate-600 font-mono overflow-x-auto border border-slate-200 relative">
+            <button onclick="copyCode(this,'bibtex')" class="absolute top-1.5 right-1.5 text-[9px] px-1.5 py-0.5 bg-slate-200 hover:bg-slate-300 rounded text-slate-500 transition">Copy</button>
+<pre id="bibtex">@misc{hu2026cartesianshortcutreevaluatevision,
+  title         = {The Cartesian Shortcut:
+                   Re-evaluate Vision Reasoning
+                   in Polar Coordinate Space},
+  author        = {Xia Hu and Zhenrui Yue
+                   and Brian Potetz and Howard Zhou
+                   and Leonidas Guibas and Chun-Ta Lu
+                   and Zhicheng Wang},
+  year          = {2026},
+  eprint        = {2605.09883},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/2605.09883}
+}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-4 text-center text-[11px] text-slate-400">
+    &copy; 2026 Google DeepMind &middot; Dataset: CC-BY-4.0 &middot; Code: Apache-2.0
+  </footer>
+
+  <script>
+    // ===== LEADERBOARD DATA (from LaTeX Table 1) =====
+    // [name, type, algo_c, algo_p, comb_c, comb_p, nav_c, nav_p, spatial_c, spatial_p, visual_c, visual_p, overall_c, overall_p]
+    const models = [
+      ["Gemini-3.1-Pro",       "Closed", 85.0,52.6, 92.4,24.9, 83.4,39.4, 83.7,31.4, 71.0,36.6, 82.6,35.9],
+      ["GPT-5.2",              "Closed", 70.7,46.7, 84.8,30.7, 82.2,42.8, 76.5,41.6, 70.0,34.5, 77.4,39.2],
+      ["Qwen3.5-397B-A17B",    "Open",   72.2,43.2, 65.2,18.1, 77.6,40.9, 77.2,39.5, 68.5,31.5, 72.9,35.0],
+      ["Gemini-3-Flash",       "Closed", 68.8,41.5, 74.8,20.6, 76.2,41.9, 68.7,29.8, 65.0,34.8, 71.0,33.8],
+      ["Kimi-k2.5",            "Open",   73.5,37.3, 68.7,16.2, 73.0,38.3, 71.7,31.1, 58.4,30.8, 69.0,31.1],
+      ["Gemma-4-31B",          "Open",   67.7,36.0, 62.3,19.4, 63.9,37.6, 60.1,28.5, 51.5,32.5, 60.5,31.0],
+      ["Gemma-4-26B",          "Open",   56.0,29.5, 45.8,14.8, 48.9,26.5, 48.5,19.4, 40.0,25.4, 47.2,22.9],
+      ["Gemini-3-Flash-lite",  "Closed", 58.0,28.3, 40.4,15.9, 54.6,28.8, 40.6,21.7, 43.3,27.7, 46.8,24.6],
+      ["Claude-Sonnet-4.6",    "Closed", 60.0,30.3, 42.7,16.8, 45.0,28.5, 42.3,25.2, 38.9,28.3, 44.4,25.9],
+      ["Gemini-2.5-Pro",       "Closed", 54.3,30.2, 23.3,12.7, 45.6,31.1, 33.8,23.9, 38.4,27.0, 38.4,25.3],
+      ["Grok-4-0709",          "Closed", 53.2,32.8, 20.8,12.0, 38.0,24.9, 29.9,22.2, 29.5,19.6, 33.0,21.8],
+      ["Gemini-2.5-Flash",     "Closed", 51.3,27.7, 15.9,9.4,  38.7,26.8, 26.4,18.5, 33.8,22.7, 32.2,21.1],
+      ["Grok-4-Fast-Reasoning","Closed", 49.7,30.8, 17.7,12.3, 37.7,27.1, 28.4,21.5, 26.1,20.5, 31.0,22.3],
+      ["Mistral-Small-2503",   "Open",   25.0,20.7, 9.6,10.9,  22.6,21.2, 19.5,21.2, 20.3,19.4, 19.4,19.0],
+    ];
+
+    // Category indices: [c_idx, p_idx] in the model array
+    const catIdx = {
+      overall: {c:12, p:13},
+      algo:    {c:2,  p:3},
+      comb:    {c:4,  p:5},
+      nav:     {c:6,  p:7},
+      spatial: {c:8,  p:9},
+      visual:  {c:10, p:11},
+    };
+
+    const catNames = {
+      overall: 'Overall',
+      algo: 'Algorithmic Logic & Simulation',
+      comb: 'Combinatorics & Probability',
+      nav: 'Navigation & Routing',
+      spatial: 'Spatial Transformation & Geometry',
+      visual: 'Visual Pattern Matching',
+    };
+
+    // Random baselines per category
+    const randomBaseline = { overall:[15.8,15.8], algo:[17.0,17.0], comb:[6.7,6.7], nav:[18.4,18.4], spatial:[16.2,16.2], visual:[19.0,19.0] };
+
+    // Human performance from Table 8 of the paper
+    const humanPerf = { overall:[94.5,88.8], algo:[92.5,87.5], comb:[77.8,64.4], nav:[97.5,92.5], spatial:[98.8,94.6], visual:[100.0,97.3] };
+    const hasHumanData = true;
+
+    let currentLBView = 'overall';
+    let sortTarget = 'overall'; // 'overall', 'algo', 'comb', 'nav', 'spatial', 'visual', 'avg', 'model', or task name
+    let sortMetric = 'p';       // 'c', 'p', 'd', or 'model'
+    let sortDir = 'desc';       // 'desc' or 'asc'
+
+    function setLBView(view) {
+      currentLBView = view;
+      document.querySelectorAll('.lb-cat-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById('lbv-'+view).classList.add('active');
+      sortTarget = (view === 'overall') ? 'overall' : 'avg';
+      sortMetric = 'p';
+      sortDir = 'desc';
+      renderLB();
+    }
+
+    function handleSort(target, metric) {
+      if (sortTarget === target && sortMetric === metric) {
+        sortDir = (sortDir === 'desc') ? 'asc' : 'desc';
+      } else {
+        sortTarget = target;
+        sortMetric = metric;
+        sortDir = (metric === 'model') ? 'asc' : 'desc';
+      }
+      renderLB();
+    }
+
+    function sortIndicator(target, metric) {
+      if (sortTarget === target && sortMetric === metric) {
+        return sortDir === 'desc' ? ' <span class="text-[9px] opacity-90">&#9660;</span>' : ' <span class="text-[9px] opacity-90">&#9650;</span>';
+      }
+      return '';
+    }
+
+    // Task full names for tooltips in breakdown view
+    const taskFullNames = {
+      'Bounce': 'Bouncing Point', 'Collision': 'Collision Detection', 'Max. Coll.': 'Maximum Collection',
+      'Min. Flips': 'Minimum Flips', 'N-Queens': 'N-Queens', 'Sudoku': 'Sudoku',
+      'Bnd. Diag.': 'Bounded Diagonal Paths', 'Bnd. Knight': 'Bounded Knight Paths', 'Chkpt. Path': 'Checkpoint Paths',
+      'Lattice': 'Lattice Paths', 'Path Cnt.': 'Path Counting', 'Edge Cnt.': 'Edge Counting',
+      'Rand. Walk': 'Random Walk', 'Knight Path': 'Knight Paths', 'Wrap. Diag.': 'Wrapping Diagonal Paths',
+      'Abs. Nav.': 'Absolute Navigation', 'Ego. Nav.': 'Egocentric Navigation', 'Rule Nav.': 'Rule-Based Navigation',
+      'Wall Fol.': 'Wall Follower', 'Wrap. Nav.': 'Wrapping Navigation', 'Bound. Path': 'Bounded Path Finding',
+      'Long. Path': 'Longest Path', 'Maze': 'Maze', 'Short. Path': 'Shortest Path', 'Wrap. Path': 'Wrapping Path Finding',
+      'Lrg. Num.': 'Largest Number Path', 'Mono. Path': 'Monotonic Path', 'Turn Cnt.': 'Turn Counting', 'Word Srch.': 'Word Search',
+      'Area Bal.': 'Area Balancing', 'Area Cnt.': 'Area Counting', 'Curve Len.': 'Curve Length',
+      'Pipe Len.': 'Pipe Lengths', 'Uncut Cells': 'Uncut Cells', 'Four Color': 'Four Color',
+      'Grid Fold.': 'Grid Folding', 'Imp. Shape': 'Impossible Shape', 'Grid Rot.': 'Grid Rotation',
+      'Mirror Ref.': 'Mirror Reflection', 'Pivot Rot.': 'Pivot Rotation', 'Rot. Center': 'Rotation Center', 'Rot. Match.': 'Rotation Matching',
+      'Anom. Det.': 'Anomaly Detection', 'Letter Col.': 'Letter Collection', 'Odd Piece': 'Odd Piece Out',
+      'Pat. Pred.': 'Pattern Prediction', 'Frag. Match.': 'Fragment Matching', 'Jigsaw': 'Jigsaw Matching',
+      'Layer Comp.': 'Layer Completion', 'Pat. Comp.': 'Pattern Completion', 'Shape Comp.': 'Shape Completion',
+      'Shape Fit.': 'Shape Fitting', 'Tmpl. Match.': 'Template Matching'
+    };
+
+    function renderLB() {
+      const v = currentLBView;
+      const isOverall = v === 'overall';
+      const container = document.getElementById('lb-container');
+
+      // Sort models according to sortTarget, sortMetric, sortDir
+      const sorted = [...models].sort((a, b) => {
+        let va = 0, vb = 0;
+        if (sortTarget === 'model') {
+          return sortDir === 'asc' ? a[0].localeCompare(b[0]) : b[0].localeCompare(a[0]);
+        }
+        if (isOverall) {
+          const idx = catIdx[sortTarget] || catIdx['overall'];
+          if (sortMetric === 'c') { va = a[idx.c]; vb = b[idx.c]; }
+          else if (sortMetric === 'p') { va = a[idx.p]; vb = b[idx.p]; }
+          else if (sortMetric === 'd') { va = a[idx.p] - a[idx.c]; vb = b[idx.p] - b[idx.c]; }
+        } else {
+          if (sortTarget === 'avg') {
+            const idx = catIdx[v];
+            if (sortMetric === 'c') { va = a[idx.c]; vb = b[idx.c]; }
+            else if (sortMetric === 'p') { va = a[idx.p]; vb = b[idx.p]; }
+            else if (sortMetric === 'd') { va = a[idx.p] - a[idx.c]; vb = b[idx.p] - b[idx.c]; }
+          } else {
+            const catData = window.perTaskBreakdown ? window.perTaskBreakdown[v] : null;
+            const da = catData && catData.data[a[0]] ? catData.data[a[0]][sortTarget] : null;
+            const db = catData && catData.data[b[0]] ? catData.data[b[0]][sortTarget] : null;
+            const mIdx = sortMetric === 'c' ? 0 : sortMetric === 'p' ? 1 : 2;
+            va = da ? da[mIdx] : -999;
+            vb = db ? db[mIdx] : -999;
+          }
+        }
+        return sortDir === 'asc' ? va - vb : vb - va;
+      });
+
+      function cpd(m, cat) {
+        const c = m[catIdx[cat].c];
+        const p = m[catIdx[cat].p];
+        const d = (p - c).toFixed(1);
+        return `<td class="py-1.5 px-2 text-center border-l border-slate-100">${c}</td><td class="py-1.5 px-2 text-center">${p}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
+      }
+
+      let hdr1 = '', hdr2 = '', bodyHTML = '', randomCells = '';
+
+      if (isOverall) {
+        // ===== OVERALL VIEW: Overall + 5 Category columns =====
+        const cats = ['overall','algo','comb','nav','spatial','visual'];
+        const catLabels = ['Overall','Algo. Logic','Comb. & Prob.','Nav. & Routing','Spatial Trans.','Visual Pattern'];
+        hdr1 = `<th class="py-2 px-2 text-center font-medium sticky-col-1" rowspan="2">#</th>
+                <th class="py-2 px-2 font-medium sticky-col-2 lb-sortable" rowspan="2" onclick="handleSort('model','model')" title="Sort by Model Name">Model${sortIndicator('model','model')}</th>`;
+        hdr2 = '';
+        cats.forEach((c,i) => {
+          hdr1 += `<th class="py-2 px-2 text-center font-medium border-l border-indigo-500" colspan="3">${catLabels[i]}</th>`;
+          const activeC = sortTarget===c && sortMetric==='c' ? 'bg-indigo-700' : '';
+          const activeP = sortTarget===c && sortMetric==='p' ? 'bg-indigo-700' : '';
+          const activeD = sortTarget===c && sortMetric==='d' ? 'bg-indigo-700' : '';
+          hdr2 += `<th class="py-1 px-2 text-center border-l border-indigo-400 lb-sortable ${activeC}" onclick="handleSort('${c}','c')" title="Sort by Cartesian (${catLabels[i]})">C${sortIndicator(c,'c')}</th>
+                   <th class="py-1 px-2 text-center lb-sortable ${activeP}" onclick="handleSort('${c}','p')" title="Sort by Polar (${catLabels[i]})">P${sortIndicator(c,'p')}</th>
+                   <th class="py-1 px-2 text-center lb-sortable ${activeD}" onclick="handleSort('${c}','d')" title="Sort by Drop (${catLabels[i]})">&Delta;${sortIndicator(c,'d')}</th>`;
+        });
+
+        // Human row
+        if (hasHumanData) {
+          let humanCells = '';
+          cats.forEach(cat => {
+            const h = humanPerf[cat];
+            const d = (h[1]-h[0]).toFixed(1);
+            humanCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${h[0]}</td><td class="py-1.5 px-2 text-center">${h[1]}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
+          });
+          bodyHTML += `<tr class="bg-amber-50 border-b-2 border-amber-200 human-row" style="font-size:11px"><td class="py-1.5 px-2 text-center sticky-col-1 text-slate-400">&mdash;</td><td class="py-1.5 px-2 text-amber-800 whitespace-nowrap sticky-col-2">Human</td>${humanCells}</tr>`;
+        }
+
+        // Model rows
+        sorted.forEach((m, i) => {
+          const rank = String(i + 1);
+          const tag = m[1]==='Open' ? ' <span class="text-[9px] text-emerald-600">Open</span>' : '';
+          let cells = '';
+          cats.forEach(cat => { cells += cpd(m, cat); });
+          bodyHTML += `<tr class="lb-row" style="font-size:11px"><td class="py-1.5 px-2 text-center sticky-col-1 text-slate-500">${rank}</td><td class="py-1.5 px-2 whitespace-nowrap sticky-col-2">${m[0]}${tag}</td>${cells}</tr>`;
+        });
+
+        // Random baseline
+        cats.forEach(cat => {
+          const r = randomBaseline[cat];
+          randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${r[0]}</td><td class="py-1.5 px-2 text-center">${r[1]}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">0.0</td>`;
+        });
+
+      } else {
+        // ===== CATEGORY TASK BREAKDOWN VIEW =====
+        const catInfo = window.perTaskBreakdown ? window.perTaskBreakdown[v] : null;
+        const tasks = catInfo ? catInfo.tasks : [];
+
+        hdr1 = `<th class="py-2 px-2 text-center font-medium sticky-col-1" rowspan="2">#</th>
+                <th class="py-2 px-2 font-medium sticky-col-2 lb-sortable" rowspan="2" onclick="handleSort('model','model')" title="Sort by Model Name">Model${sortIndicator('model','model')}</th>`;
+        hdr1 += `<th class="py-2 px-2 text-center font-medium border-l border-indigo-500" colspan="3">${catNames[v]} Avg</th>`;
+
+        const activeAvgC = sortTarget==='avg' && sortMetric==='c' ? 'bg-indigo-700' : '';
+        const activeAvgP = sortTarget==='avg' && sortMetric==='p' ? 'bg-indigo-700' : '';
+        const activeAvgD = sortTarget==='avg' && sortMetric==='d' ? 'bg-indigo-700' : '';
+        hdr2 = `<th class="py-1 px-2 text-center border-l border-indigo-400 lb-sortable ${activeAvgC}" onclick="handleSort('avg','c')" title="Sort by Category Avg Cartesian">C${sortIndicator('avg','c')}</th>
+                <th class="py-1 px-2 text-center lb-sortable ${activeAvgP}" onclick="handleSort('avg','p')" title="Sort by Category Avg Polar">P${sortIndicator('avg','p')}</th>
+                <th class="py-1 px-2 text-center lb-sortable ${activeAvgD}" onclick="handleSort('avg','d')" title="Sort by Category Avg Drop">&Delta;${sortIndicator('avg','d')}</th>`;
+
+        tasks.forEach(t => {
+          const fn = taskFullNames[t] || t;
+          hdr1 += `<th class="py-2 px-2 text-center font-medium border-l border-indigo-500 whitespace-nowrap" colspan="3" title="${fn}"><span class="border-b border-dashed border-indigo-300 cursor-help">${t}</span></th>`;
+          const activeTC = sortTarget===t && sortMetric==='c' ? 'bg-indigo-700' : '';
+          const activeTP = sortTarget===t && sortMetric==='p' ? 'bg-indigo-700' : '';
+          const activeTD = sortTarget===t && sortMetric==='d' ? 'bg-indigo-700' : '';
+          hdr2 += `<th class="py-1 px-2 text-center border-l border-indigo-400 lb-sortable ${activeTC}" onclick="handleSort('${t}','c')" title="Sort by ${fn} Cartesian">C${sortIndicator(t,'c')}</th>
+                   <th class="py-1 px-2 text-center lb-sortable ${activeTP}" onclick="handleSort('${t}','p')" title="Sort by ${fn} Polar">P${sortIndicator(t,'p')}</th>
+                   <th class="py-1 px-2 text-center lb-sortable ${activeTD}" onclick="handleSort('${t}','d')" title="Sort by ${fn} Drop">&Delta;${sortIndicator(t,'d')}</th>`;
+        });
+
+        // Human row
+        if (hasHumanData) {
+          const hc = humanPerf[v];
+          const hd = (hc[1]-hc[0]).toFixed(1);
+          let humanCells = `<td class="py-1.5 px-2 text-center border-l border-slate-100">${hc[0]}</td><td class="py-1.5 px-2 text-center">${hc[1]}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${hd}</td>`;
+          tasks.forEach(t => {
+            const htData = catInfo && catInfo.data['Human'] ? catInfo.data['Human'][t] : null;
+            if (htData) {
+              const c = htData[0];
+              const p = htData[1];
+              const d = htData[2] > 0 ? '+' + htData[2] : htData[2];
+              humanCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${c}</td><td class="py-1.5 px-2 text-center">${p}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
+            } else {
+              humanCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100 text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300 text-[10px]">-</td>`;
+            }
+          });
+          bodyHTML += `<tr class="bg-amber-50 border-b-2 border-amber-200 human-row" style="font-size:11px"><td class="py-1.5 px-2 text-center sticky-col-1 text-slate-400">&mdash;</td><td class="py-1.5 px-2 text-amber-800 whitespace-nowrap sticky-col-2">Human</td>${humanCells}</tr>`;
+        }
+
+        // Model rows
+        sorted.forEach((m, i) => {
+          const rank = String(i + 1);
+          const tag = m[1]==='Open' ? ' <span class="text-[9px] text-emerald-600">Open</span>' : '';
+          let cells = cpd(m, v); // Category average
+
+          tasks.forEach(t => {
+            const tData = catInfo && catInfo.data[m[0]] ? catInfo.data[m[0]][t] : null;
+            if (tData) {
+              const c = tData[0];
+              const p = tData[1];
+              const d = tData[2] > 0 ? '+' + tData[2] : tData[2];
+              cells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${c}</td><td class="py-1.5 px-2 text-center">${p}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
+            } else {
+              cells += `<td class="py-1.5 px-2 text-center border-l border-slate-100 text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300 text-[10px]">-</td>`;
+            }
+          });
+          bodyHTML += `<tr class="lb-row" style="font-size:11px"><td class="py-1.5 px-2 text-center sticky-col-1 text-slate-500">${rank}</td><td class="py-1.5 px-2 whitespace-nowrap sticky-col-2">${m[0]}${tag}</td>${cells}</tr>`;
+        });
+
+        // Random baseline
+        const rc = randomBaseline[v];
+        randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${rc[0]}</td><td class="py-1.5 px-2 text-center">${rc[1]}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">0.0</td>`;
+        tasks.forEach(t => {
+          const rData = catInfo && catInfo.data['Random'] ? catInfo.data['Random'][t] : null;
+          if (rData) {
+            randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${rData[0]}</td><td class="py-1.5 px-2 text-center">${rData[1]}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">0.0</td>`;
+          } else {
+            randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100 text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300 text-[10px]">0.0</td>`;
+          }
+        });
+      }
+
+      container.innerHTML = `
+        <table class="w-full text-left border-collapse" style="font-size:11px">
+          <thead>
+            <tr class="bg-indigo-600 text-white" style="font-size:10px">${hdr1}</tr>
+            <tr class="bg-indigo-500 text-indigo-100" style="font-size:9px">${hdr2}</tr>
+          </thead>
+          <tbody>${bodyHTML}</tbody>
+          <tfoot>
+            <tr class="bg-slate-50 text-slate-400 italic random-row" style="font-size:10px">
+              <td class="py-1.5 px-2 text-center sticky-col-1">&mdash;</td>
+              <td class="py-1.5 px-2 sticky-col-2">Random</td>
+              ${randomCells}
+            </tr>
+          </tfoot>
+        </table>
+      `;
+    }
+
+    // ===== INTERACTIVE EXAMPLES (DYNAMIC SIDE-BY-SIDE) =====
+    let allSampleTasks = window.sampleTasksData || [];
+    let currentExampleCat = 'algo';
+    let currentSelectedTaskId = 'sudoku';
+
+    function selectExampleCategory(cat) {
+      currentExampleCat = cat;
+      document.querySelectorAll('[id^="cat-"]').forEach(b => b.classList.remove('active'));
+      const activeCatBtn = document.getElementById('cat-' + cat);
+      if (activeCatBtn) activeCatBtn.classList.add('active');
+      renderExampleTaskButtons();
+      const tasksInCat = allSampleTasks.filter(t => t.category === cat);
+      if (tasksInCat.length > 0) {
+        selectExampleTask(tasksInCat[0].id);
+      }
+    }
+
+    function renderExampleTaskButtons() {
+      const container = document.getElementById('task-buttons');
+      const tasksInCat = allSampleTasks.filter(t => t.category === currentExampleCat);
+      container.innerHTML = tasksInCat.map(t =>
+        `<button onclick="selectExampleTask('${t.id}')" id="task-btn-${t.id}" class="task-tab text-[10px] px-2.5 py-1 rounded border border-slate-200 font-medium ${t.id === currentSelectedTaskId ? 'active' : ''}">${t.name}</button>`
+      ).join('');
+    }
+
+    function selectExampleTask(taskId) {
+      currentSelectedTaskId = taskId;
+      const task = allSampleTasks.find(t => t.id === taskId);
+      if (!task) return;
+
+      document.querySelectorAll('#task-buttons .task-tab').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('task-btn-' + taskId);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      renderExampleCard(task);
+    }
+
+    function formatQuestionText(text) {
+      if (!text) return '';
+      const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return escaped.replace(/\n/g, '<br>');
+    }
+
+    function renderExampleCard(task) {
+      const container = document.getElementById('example-card-container');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="px-3.5 py-2 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-[12px]">
+          <div>
+            <span class="font-medium text-slate-800">${task.name}</span>
+            <span class="text-slate-400 text-[11px] ml-1.5 font-mono">(${task.index})</span>
+          </div>
+          <div class="text-[11px] font-mono text-slate-600">
+            Ground Truth: <span class="font-semibold text-slate-900">${task.answer}</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+          <!-- LEFT: Cartesian -->
+          <div class="p-4 flex flex-col bg-white">
+            <div class="text-[12px] font-semibold text-slate-700 mb-2">Cartesian</div>
+            <div class="flex items-center justify-center border border-slate-200 rounded-lg p-3 mb-3 h-[280px] bg-slate-50/50 cursor-pointer" onclick="openModal('${task.cartesian.image}', '${task.name} (Cartesian)')">
+              <img src="${task.cartesian.image}" alt="${task.name} Cartesian" class="max-h-full object-contain mx-auto" style="width: 75%; max-height: 260px;">
+            </div>
+            <div class="text-[12px] text-slate-700 bg-slate-50 rounded-lg p-3 border border-slate-200 font-mono h-[140px] overflow-y-auto leading-relaxed">
+              ${formatQuestionText(task.cartesian.question)}
+            </div>
+          </div>
+
+          <!-- RIGHT: Polar -->
+          <div class="p-4 flex flex-col bg-white">
+            <div class="text-[12px] font-semibold text-slate-700 mb-2">Polar</div>
+            <div class="flex items-center justify-center border border-slate-200 rounded-lg p-3 mb-3 h-[280px] bg-slate-50/50 cursor-pointer" onclick="openModal('${task.polar.image}', '${task.name} (Polar)')">
+              <img src="${task.polar.image}" alt="${task.name} Polar" class="max-h-full object-contain mx-auto" style="width: 75%; max-height: 260px;">
+            </div>
+            <div class="text-[12px] text-slate-700 bg-slate-50 rounded-lg p-3 border border-slate-200 font-mono h-[140px] overflow-y-auto leading-relaxed">
+              ${formatQuestionText(task.polar.question)}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function openModal(imgSrc, title) {
+      document.getElementById('modal-img').src = imgSrc;
+      document.getElementById('modal-title').innerHTML = title;
+      document.getElementById('image-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('image-modal').classList.add('hidden');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    function copyCode(btn, id) {
+      navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
+        const o = btn.innerHTML;
+        btn.textContent = '✓ Copied';
+        setTimeout(() => { btn.innerHTML = o; }, 1500);
+      });
+    }
+
+    // Init
+    renderLB();
+    selectExampleCategory('algo');
+  </script>
+
+  <!-- Lightbox Modal for Full-Resolution Image Inspection -->
+  <div id="image-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 cursor-pointer" onclick="closeModal()">
+    <div class="max-w-4xl max-h-[92vh] flex flex-col items-center bg-white rounded-xl p-3 shadow-2xl relative cursor-default" onclick="event.stopPropagation()">
+      <div class="w-full flex justify-between items-center mb-2 px-1">
+        <span id="modal-title" class="font-semibold text-[13px] text-slate-800"></span>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-700 text-lg leading-none font-bold px-2 py-1">&times;</button>
+      </div>
+      <img id="modal-img" src="" alt="Full view" class="max-h-[78vh] w-auto max-w-full object-contain rounded border border-slate-200">
+    </div>
+  </div>
+</body>
+</html>
