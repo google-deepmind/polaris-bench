@@ -232,21 +232,21 @@ python -m evaluation.evaluate \
   --question-type polar
 ```
 
-The script displays a formatted terminal summary table and exports a detailed JSON report (`evaluation_report.json`):
+The script displays a formatted terminal summary table and exports a detailed JSON report (`evaluation_report.json`), illustrated below on GPT-5.2 evaluation results:
 ```
 ==================================================================================
                          POLARIS-BENCH EVALUATION REPORT
 ==================================================================================
-Total Evaluated: 10800 | Overall Accuracy: 59.2%
+Total Evaluated: 10600 | Overall Accuracy: 58.3%
 Cartesian Acc:   77.4% | Polar Acc: 39.2% | Drop (Cartesian - Polar): 38.2 pt
 ----------------------------------------------------------------------------------
 Category                             | Cartesian (%) | Polar (%)  | Drop (pt) 
 ----------------------------------------------------------------------------------
-Algorithmic Logic & Simulation       | 78.5          | 41.2       | 37.3      
-Combinatorics & Probability          | 74.2          | 36.8       | 37.4      
-Navigation & Routing                 | 81.0          | 40.5       | 40.5      
-Spatial Transformation & Geometry    | 76.1          | 38.9       | 37.2      
-Visual Pattern Matching              | 77.2          | 38.6       | 38.6      
+Algorithmic Logic & Simulation       | 70.7          | 46.7       | 24.0      
+Combinatorics & Probability          | 84.8          | 30.7       | 54.1      
+Navigation & Routing                 | 82.2          | 42.8       | 39.4      
+Spatial Transformation & Geometry    | 76.5          | 41.6       | 34.9      
+Visual Pattern Matching              | 70.0          | 34.5       | 35.5      
 ==================================================================================
 ```
 
