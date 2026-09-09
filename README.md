@@ -31,6 +31,10 @@
 Current Multimodal Large Language Models (MLLMs) achieve strong performance on visual reasoning benchmarks, but do these scores reflect genuine visual perception? In this work, we identify a pervasive vulnerability: **the Cartesian Shortcut**.
 
 ### The Cartesian Shortcut
+<p align="center">
+  <img src="docs/static/figures/intro.png" width="90%" alt="The Cartesian Shortcut: Cartesian vs. Polar Visual Reasoning">
+</p>
+
 
 Standard visual reasoning benchmarks are predominantly structured around orthogonal, grid-based Cartesian layouts. We find that state-of-the-art models systematically exploit this structure: rather than performing true visual-spatial reasoning, they discretize 2D images into explicit textual coordinates (such as row and column indices) and offload spatial deduction onto pure text-based reasoning. This text-based shortcut inflates benchmark scores while masking critical deficiencies in genuine visual understanding.
 
@@ -40,9 +44,6 @@ To dismantle the Cartesian Shortcut, we introduce **Polaris-Bench**, an evaluati
 
 Under this controlled setting, frontier models that achieve 70-83% accuracy on Cartesian layouts experience a dramatic performance collapse to 31-39% on logically equivalent Polar tasks, while human performance remains robust (94.5% Cartesian vs. 88.8% Polar).
 
-<p align="center">
-  <img src="docs/static/figures/intro.png" width="95%" alt="The Cartesian Shortcut: Cartesian vs. Polar Visual Reasoning">
-</p>
 
 <p align="center">
   <img src="docs/static/figures/polar_figure_representative_example.png" width="95%" alt="Representative task pairs in Polaris-Bench across five cognitive categories">
@@ -251,6 +252,9 @@ All other materials are licensed under the Creative Commons Attribution 4.0 Inte
 Some data was created with inspiration from:
 - Babyvision, which is available at https://github.com/UniPat-AI/BabyVision under the Creative Commons Attribution 4.0 International License (CC-BY). You may obtain a copy of the CC-BY license at: https://creativecommons.org/licenses/by/4.0/legalcode.
 - EMMA-Bench, which is available at https://github.com/EMMA-Bench/EMMA.
+- MathVista: https://github.com/lupantech/MathVista (released under the Creative Commons Attribution-ShareAlike 4.0 International License, CC BY-SA 4.0).
+- MEGABench: https://github.com/TIGER-AI-Lab/MEGA-Bench.
+
 
 Unless required by applicable law or agreed to in writing, all software and materials distributed here under the Apache 2.0 or CC-BY licenses are distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the licenses for the specific language governing permissions and limitations under those licenses.
 
