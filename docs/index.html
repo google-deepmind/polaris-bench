@@ -403,11 +403,14 @@ s[<span class="text-emerald-400">"image"</span>].show()</pre>
         return sortDir === 'asc' ? va - vb : vb - va;
       });
 
+      // Format a number to exactly 1 decimal place for display
+      function fmt(v) { return Number(v).toFixed(1); }
+
       function cpd(m, cat) {
         const c = m[catIdx[cat].c];
         const p = m[catIdx[cat].p];
         const d = (p - c).toFixed(1);
-        return `<td class="py-1.5 px-2 text-center border-l border-slate-100">${c}</td><td class="py-1.5 px-2 text-center">${p}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
+        return `<td class="py-1.5 px-2 text-center border-l border-slate-100">${fmt(c)}</td><td class="py-1.5 px-2 text-center">${fmt(p)}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
       }
 
       let hdr1 = '', hdr2 = '', bodyHTML = '', randomCells = '';
@@ -435,7 +438,7 @@ s[<span class="text-emerald-400">"image"</span>].show()</pre>
           cats.forEach(cat => {
             const h = humanPerf[cat];
             const d = (h[1]-h[0]).toFixed(1);
-            humanCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${h[0]}</td><td class="py-1.5 px-2 text-center">${h[1]}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
+            humanCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${fmt(h[0])}</td><td class="py-1.5 px-2 text-center">${fmt(h[1])}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
           });
           bodyHTML += `<tr class="bg-amber-50 border-b-2 border-amber-200 human-row" style="font-size:11px"><td class="py-1.5 px-2 text-center sticky-col-1 text-slate-400">&mdash;</td><td class="py-1.5 px-2 text-amber-800 whitespace-nowrap sticky-col-2">Human</td>${humanCells}</tr>`;
         }
@@ -452,7 +455,7 @@ s[<span class="text-emerald-400">"image"</span>].show()</pre>
         // Random baseline
         cats.forEach(cat => {
           const r = randomBaseline[cat];
-          randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${r[0]}</td><td class="py-1.5 px-2 text-center">${r[1]}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">0.0</td>`;
+          randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${fmt(r[0])}</td><td class="py-1.5 px-2 text-center">${fmt(r[1])}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">0.0</td>`;
         });
 
       } else {
@@ -486,14 +489,14 @@ s[<span class="text-emerald-400">"image"</span>].show()</pre>
         if (hasHumanData) {
           const hc = humanPerf[v];
           const hd = (hc[1]-hc[0]).toFixed(1);
-          let humanCells = `<td class="py-1.5 px-2 text-center border-l border-slate-100">${hc[0]}</td><td class="py-1.5 px-2 text-center">${hc[1]}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${hd}</td>`;
+          let humanCells = `<td class="py-1.5 px-2 text-center border-l border-slate-100">${fmt(hc[0])}</td><td class="py-1.5 px-2 text-center">${fmt(hc[1])}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${hd}</td>`;
           tasks.forEach(t => {
             const htData = catInfo && catInfo.data['Human'] ? catInfo.data['Human'][t] : null;
             if (htData) {
               const c = htData[0];
               const p = htData[1];
-              const d = htData[2] > 0 ? '+' + htData[2] : htData[2];
-              humanCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${c}</td><td class="py-1.5 px-2 text-center">${p}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
+              const d = htData[2] > 0 ? '+' + fmt(htData[2]) : fmt(htData[2]);
+              humanCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${fmt(c)}</td><td class="py-1.5 px-2 text-center">${fmt(p)}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
             } else {
               humanCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100 text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300 text-[10px]">-</td>`;
             }
@@ -512,8 +515,8 @@ s[<span class="text-emerald-400">"image"</span>].show()</pre>
             if (tData) {
               const c = tData[0];
               const p = tData[1];
-              const d = tData[2] > 0 ? '+' + tData[2] : tData[2];
-              cells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${c}</td><td class="py-1.5 px-2 text-center">${p}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
+              const d = tData[2] > 0 ? '+' + fmt(tData[2]) : fmt(tData[2]);
+              cells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${fmt(c)}</td><td class="py-1.5 px-2 text-center">${fmt(p)}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">${d}</td>`;
             } else {
               cells += `<td class="py-1.5 px-2 text-center border-l border-slate-100 text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300 text-[10px]">-</td>`;
             }
@@ -523,11 +526,11 @@ s[<span class="text-emerald-400">"image"</span>].show()</pre>
 
         // Random baseline
         const rc = randomBaseline[v];
-        randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${rc[0]}</td><td class="py-1.5 px-2 text-center">${rc[1]}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">0.0</td>`;
+        randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${fmt(rc[0])}</td><td class="py-1.5 px-2 text-center">${fmt(rc[1])}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">0.0</td>`;
         tasks.forEach(t => {
           const rData = catInfo && catInfo.data['Random'] ? catInfo.data['Random'][t] : null;
           if (rData) {
-            randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${rData[0]}</td><td class="py-1.5 px-2 text-center">${rData[1]}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">0.0</td>`;
+            randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100">${fmt(rData[0])}</td><td class="py-1.5 px-2 text-center">${fmt(rData[1])}</td><td class="py-1.5 px-2 text-center text-slate-400 text-[10px]">0.0</td>`;
           } else {
             randomCells += `<td class="py-1.5 px-2 text-center border-l border-slate-100 text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300">-</td><td class="py-1.5 px-2 text-center text-slate-300 text-[10px]">0.0</td>`;
           }
