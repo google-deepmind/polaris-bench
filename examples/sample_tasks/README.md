@@ -8,14 +8,7 @@ This directory contains representative paired evaluation instances from the **Po
 examples/sample_tasks/
 ├── sample_tasks.json          # Paired evaluation instances with questions, answers, and image paths
 ├── README.md                  # This documentation
-└── images/                    # Paired PNG images organized by task
-    ├── sudoku/
-    │   ├── sudoku_sudoku_001_cartesian.png
-    │   └── sudoku_sudoku_001_polar.png
-    ├── maze/
-    │   ├── maze_maze_001_cartesian.png
-    │   └── maze_maze_001_polar.png
-    └── ... (20 representative tasks across 5 categories)
+└── (images are stored in docs/static/sample_tasks/images/ and referenced via relative paths)
 ```
 
 ## Quick Inspection (Python)
