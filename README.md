@@ -72,6 +72,55 @@ All models evaluated under high reasoning mode. Sorted by **Polar accuracy (P)**
 | 14 | **Mistral-Small-2503** | Open | 19.4 | 19.0 | -0.4 |
 | - | **Random Baseline** | Baseline | 15.8 | 15.8 | 0.0 |
 
+## Dataset on Hugging Face
+
+The complete Polaris-Bench evaluation dataset (all 10,800 multimodal problem instances across 53 tasks and 4 coordinate systems) is hosted on the Hugging Face Hub:
+
+**[https://huggingface.co/datasets/google/polaris-bench](https://huggingface.co/datasets/google/polaris-bench)**
+
+You can load the full dataset directly using the Hugging Face `datasets` library:
+
+```python
+from datasets import load_dataset
+
+# Load the full 10,800 evaluation problem instances
+dataset = load_dataset("google/polaris-bench", split="test")
+
+# Inspect an example
+sample = dataset[0]
+print(f"Task: {sample['task']} | Coordinate System: {sample['question_type']}")
+print(f"Question: {sample['question']}")
+print(f"Answer: {sample['answer']}")
+# sample["image"] is automatically decoded as a PIL Image object
+```
+
+> **Offline sample tasks**: If you want to explore the benchmark locally without downloading the full Hugging Face image dataset, a standalone set of 20 representative paired Cartesian-Polar tasks is included directly in this repository under [`examples/sample_tasks/`](examples/sample_tasks/).
+
+## Repository Structure
+
+```
+polaris-bench/
+├── evaluation/              # Core evaluation module and benchmark scoring
+│   ├── __init__.py          # Package exports (PolarisDataLoader, Evaluator)
+│   ├── data_loader.py       # Dataset loader (supports Hugging Face, local JSON, and sample tasks)
+│   └── evaluate.py          # Benchmark evaluation script (accuracy by coordinate system and category)
+├── examples/                # Quick start guide and local offline sample instances
+│   ├── quick_start.py       # Standalone demo script (loads data, paired tasks, and runs mock evaluation)
+│   └── sample_tasks/        # 20 representative paired tasks for local offline inspection
+│       ├── sample_tasks.json# Paired Cartesian vs. Polar questions and ground truth
+│       ├── README.md        # Documentation for sample tasks
+│       └── images/          # PNG images organized by task
+├── docs/                    # Project webpage source (served via GitHub Pages)
+│   ├── index.html           # Interactive project page with leaderboard and task viewer
+│   └── static/              # Paper figures, teasers, and website assets
+├── tests/                   # Unit test suite
+│   └── test_benchmark.py    # 9 automated tests for data loading, matching, and metrics
+├── pyproject.toml           # Python package build configuration
+├── requirements.txt         # Minimal dependencies (datasets, Pillow, etc.)
+├── LICENSE                  # Apache 2.0 license
+└── README.md                # Project documentation and getting started guide
+```
+
 ## Installation
 
 ```bash
