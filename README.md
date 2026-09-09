@@ -1,11 +1,7 @@
-<p align="center">
-  <img src="docs/static/figures/intro.png" width="100%" alt="Polaris-Bench">
-</p>
-
-<h1 align="center">Polaris-Bench</h1>
+<h1 align="center">The Cartesian Shortcut: Re-evaluate Vision Reasoning in Polar Coordinate Space</h1>
 
 <p align="center">
-  <strong>The Cartesian Shortcut: Re-evaluate Vision Reasoning in Polar Coordinate Space</strong>
+  <strong>Polaris-Bench: Official Benchmark and Evaluation Suite</strong>
 </p>
 
 <p align="center">
@@ -13,7 +9,7 @@
   <a href="https://huggingface.co/datasets/google/polaris-bench"><img src="https://img.shields.io/badge/%F0%9F%A4%97-Dataset-yellow.svg" alt="HuggingFace"></a>
   <a href="https://google-deepmind.github.io/polaris-bench"><img src="https://img.shields.io/badge/Project-Page-blue.svg" alt="Project Page"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/Code-Apache%202.0-green.svg" alt="License"></a>
-  <a href="https://huggingface.co/datasets/google/polaris-bench"><img src="https://img.shields.io/badge/Data-CC--BY--4.0-lightgrey.svg" alt="Data License"></a>
+  <a href="https://creativecommons.org/licenses/by/4.0/legalcode"><img src="https://img.shields.io/badge/Data-CC--BY--4.0-lightgrey.svg" alt="Data License"></a>
 </p>
 
 <p align="center">
@@ -30,21 +26,23 @@
 
 ---
 
-## Highlights
-
-| | |
-|---|---|
-| 🧩 **10,800** evaluation problems | 🧭 **4** coordinate systems (Cartesian, Polar, Hexagonal, Octagonal) |
-| 📐 **53** visual reasoning tasks across 5 categories | 📉 **~32 pt** average Cartesian to Polar accuracy drop |
-| 🏷️ **14** state-of-the-art MLLMs evaluated | 🔬 Paired Cartesian-Polar controlled evaluation |
-
 ## Overview
 
-Current Multimodal LLMs achieve strong scores on visual reasoning benchmarks, but do these scores reflect genuine visual understanding? We identify a pervasive vulnerability: **the Cartesian Shortcut**.
+Current Multimodal Large Language Models (MLLMs) achieve strong performance on visual reasoning benchmarks, but do these scores reflect genuine visual perception? In this work, we identify a pervasive vulnerability: **the Cartesian Shortcut**.
 
-> Models systematically discretize orthogonal grid-based layouts into explicit textual coordinates, offloading visual reasoning onto text-based deduction. This inflates performance on standard benchmarks.
+### The Cartesian Shortcut
 
-**Polaris-Bench** dismantles this shortcut by re-formulating 53 visual reasoning tasks in **Polar coordinate space**, paired with Cartesian counterparts under identical logical constraints. Results show that frontier models achieving 70–83% on Cartesian layouts **collapse to 31–39%** on Polar equivalents.
+Standard visual reasoning benchmarks are predominantly structured around orthogonal, grid-based Cartesian layouts. We find that state-of-the-art models systematically exploit this structure: rather than performing true visual-spatial reasoning, they discretize 2D images into explicit textual coordinates (such as row and column indices) and offload spatial deduction onto pure text-based reasoning. This text-based shortcut inflates benchmark scores while masking critical deficiencies in genuine visual understanding.
+
+### Polaris-Bench
+
+To dismantle the Cartesian Shortcut, we introduce **Polaris-Bench**, an evaluation benchmark that re-formulates 53 visual reasoning tasks across 5 cognitive categories into **Polar coordinate space**, paired directly with their Cartesian counterparts under identical logical constraints and rules. In Polar space, lines of constant coordinate curvature bend, distance metrics depend on radius, and coordinate discretization becomes non-trivial.
+
+Under this controlled setting, frontier models that achieve 70-83% accuracy on Cartesian layouts experience a dramatic performance collapse to 31-39% on logically equivalent Polar tasks, while human performance remains robust (94.5% Cartesian vs. 88.8% Polar).
+
+<p align="center">
+  <img src="docs/static/figures/intro.png" width="95%" alt="The Cartesian Shortcut: Cartesian vs. Polar Visual Reasoning">
+</p>
 
 <p align="center">
   <img src="docs/static/figures/polar_figure_representative_example.png" width="95%" alt="Representative task pairs in Polaris-Bench across five cognitive categories">
@@ -108,12 +106,28 @@ print("Ground Truth:   ", cart_sample["answer"])
 
 ## Evaluation
 
-Run the evaluation script against your model's predictions:
+Evaluating a model on Polaris-Bench consists of two simple steps: **model inference** and **benchmark scoring**.
 
-```bash
-python -m evaluation.evaluate \
-  --predictions predictions.json \
-  --ground-truth polaris_bench.json
+### Step 1: Generate Predictions from Your Model
+
+Query your multimodal model (e.g. Gemini, GPT, Claude, or local open-weights) with each task's image and question prompt. Collect the outputs into a predictions JSON file:
+
+```python
+import json
+from evaluation.data_loader import PolarisDataLoader
+
+loader = PolarisDataLoader("examples/sample_tasks/sample_tasks.json")
+
+# Run inference with your model and save predictions
+predictions = {}
+for example in loader:
+    key = f"{example['task']}::{example['index']}::{example['question_type']}"
+    # Call your model inference function here:
+    # predictions[key] = your_model.generate(image=example['image'], prompt=example['question'])
+    predictions[key] = "A"
+
+with open("predictions.json", "w") as f:
+    json.dump(predictions, f, indent=2)
 ```
 
 **Supported Prediction Formats**:
@@ -151,6 +165,16 @@ python -m evaluation.evaluate \
 ]
 ```
 
+### Step 2: Score Predictions Against Ground Truth
+
+Run the evaluation script to compute accuracy metrics and the Cartesian-to-Polar drop:
+
+```bash
+python -m evaluation.evaluate \
+  --predictions predictions.json \
+  --ground-truth polaris_bench.json
+```
+
 To evaluate only a specific coordinate system, pass `--question-type`:
 ```bash
 python -m evaluation.evaluate \
@@ -158,7 +182,7 @@ python -m evaluation.evaluate \
   --question-type polar
 ```
 
-The script automatically formats a terminal summary table and exports a detailed JSON report:
+The script displays a formatted terminal summary table and exports a detailed JSON report (`evaluation_report.json`):
 ```
 ==================================================================================
                          POLARIS-BENCH EVALUATION REPORT
@@ -216,14 +240,20 @@ Each record contains 6 fields (+ `image` in the HuggingFace Parquet version):
 }
 ```
 
-## License
+## Licensing & Disclaimer
 
-- **Code**: [Apache License 2.0](LICENSE)
-- **Dataset**: [Creative Commons Attribution 4.0 (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/)
+Copyright 2026 Google LLC
 
-## Acknowledgments
+All software is licensed under the Apache License, Version 2.0 (Apache 2.0); you may not use this file except in compliance with the Apache 2.0 license. You may obtain a copy of the Apache 2.0 license at: https://www.apache.org/licenses/LICENSE-2.0
 
-Polaris-Bench draws inspiration from and builds upon prior work in visual reasoning evaluation, including [BabyVision](https://arxiv.org/abs/2601.06521), [EMMA-Bench](https://openreview.net/forum?id=v26vwjxOEz), [MathVista](https://mathvista.github.io/), [MEGABench](https://megabench.github.io/), [OmniSpatial](https://openreview.net/forum?id=6nZKT2rL0H), [VGRP-Bench](https://arxiv.org/abs/2503.23064), and [GRASP](https://arxiv.org/abs/2407.01892), among others.
+All other materials are licensed under the Creative Commons Attribution 4.0 International License (CC-BY). You may obtain a copy of the CC-BY license at: https://creativecommons.org/licenses/by/4.0/legalcode
 
-*This is not an officially supported Google product.*
+Some data was created with inspiration from:
+- Babyvision, which is available at https://github.com/UniPat-AI/BabyVision under the Creative Commons Attribution 4.0 International License (CC-BY). You may obtain a copy of the CC-BY license at: https://creativecommons.org/licenses/by/4.0/legalcode.
+- EMMA-Bench, which is available at https://github.com/EMMA-Bench/EMMA.
+
+Unless required by applicable law or agreed to in writing, all software and materials distributed here under the Apache 2.0 or CC-BY licenses are distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the licenses for the specific language governing permissions and limitations under those licenses.
+
+This is not an official Google product.
+
 
