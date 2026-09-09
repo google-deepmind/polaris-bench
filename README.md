@@ -14,12 +14,12 @@
 
 <p align="center">
   <a href="https://scholar.google.com/citations?user=1PT3EQoAAAAJ">Xia Hu</a><sup>1</sup>, 
-  <a href="https://scholar.google.com/citations?user=d901d8AAAAAJ">Zhenrui Yue</a><sup>1</sup>, 
-  <a href="https://scholar.google.com/citations?user=pG-Kj_IAAAAJ">Brian Potetz</a><sup>1</sup>, 
-  <a href="https://scholar.google.com/citations?user=c_3w1c4AAAAJ">Howard Zhou</a><sup>1</sup>, 
-  <a href="https://scholar.google.com/citations?user=K406kGgAAAAJ">Leonidas Guibas</a><sup>1,2</sup>, 
-  <a href="https://scholar.google.com/citations?user=xN1T12AAAAAJ">Chun-Ta Lu</a><sup>3</sup>, 
-  <a href="https://scholar.google.com/citations?user=G4581w0AAAAJ">Zhicheng Wang</a><sup>1</sup>
+  <a href="https://scholar.google.com/citations?user=9Iy_KmsAAAAJ">Zhenrui Yue</a><sup>1</sup>, 
+  <a href="https://scholar.google.com/citations?user=OwEFVw4AAAAJ">Brian Potetz</a><sup>1</sup>, 
+  <a href="https://scholar.google.com/citations?user=dJXeYCoAAAAJ">Howard Zhou</a><sup>1</sup>, 
+  <a href="https://scholar.google.com/citations?user=5JlEyTAAAAAJ">Leonidas Guibas</a><sup>1,2</sup>, 
+  <a href="https://scholar.google.com/citations?user=05CGvyAAAAAJ">Chun-Ta Lu</a><sup>3</sup>, 
+  <a href="https://scholar.google.com/citations?user=2ccN2csAAAAJ">Zhicheng Wang</a><sup>1</sup>
   <br>
   <sup>1</sup>Google DeepMind &nbsp; <sup>2</sup>Stanford University &nbsp; <sup>3</sup>Google Research
 </p>
