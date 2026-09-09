@@ -64,7 +64,7 @@ All models evaluated under high reasoning mode. Sorted by **Polar accuracy (P)**
 | 6 | **Gemma-4-31B** | Open | 60.5 | 31.0 | -29.5 |
 | 7 | **Claude-Sonnet-4.6** | Closed | 44.4 | 25.9 | -18.5 |
 | 8 | **Gemini-2.5-Pro** | Closed | 38.4 | 25.3 | -13.2 |
-| 9 | **Gemini-3-Flash-lite** | Closed | 46.8 | 24.6 | -22.2 |
+| 9 | **Gemini-3.1-Flash-Lite** | Closed | 46.8 | 24.6 | -22.2 |
 | 10 | **Gemma-4-26B** | Open | 47.2 | 22.9 | -24.4 |
 | 11 | **Grok-4-Fast-Reasoning** | Closed | 31.0 | 22.3 | -8.7 |
 | 12 | **Grok-4-0709** | Closed | 33.0 | 21.8 | -11.2 |
