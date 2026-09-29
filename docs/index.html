@@ -80,11 +80,8 @@
         <span class="w-1.5 h-5 bg-indigo-600 rounded-full inline-block"></span>
         Abstract
       </h2>
-      <p class="text-[14px] text-slate-700 leading-relaxed mb-3">
-        As current Multimodal Large Language Models rapidly saturate canonical visual reasoning benchmarks, a key question emerges: do these strong scores genuinely reflect robust visual understanding? We identify a pervasive vulnerability, the <strong>Cartesian Shortcut</strong>: visual reasoning benchmarks prevalently build on orthogonal grid-based layouts that can be readily discretized into explicit textual coordinates. Models systematically exploit this property, heavily leveraging text-based deductive reasoning to assist visual problem-solving.
-      </p>
       <p class="text-[14px] text-slate-700 leading-relaxed">
-        To systematically dismantle this shortcut, we introduce <strong>Polaris-Bench</strong>, which re-formulates <strong>53 visual reasoning tasks</strong> in Polar coordinate space with paired Cartesian counterparts as reference, while preserving consistent logical constraints and task semantics, fundamentally breaking the orthogonal prior that models exploit. Comprehensive evaluation across 14 state-of-the-art MLLMs reveals that frontier models achieving 70&ndash;83% on Cartesian layouts collapse to 31&ndash;39% on Polar equivalents, with degradation persisting even under complete logical equivalence. Moreover, reasoning gains observed on Cartesian layouts are severely diminished on Polar equivalents. These findings expose a critical deficiency in current MLLMs: the lack of topology-invariant visual reasoning.
+        As current Multimodal Large Language Models rapidly saturate canonical visual reasoning benchmarks, a key question emerges: do these strong scores genuinely reflect robust visual understanding? We identify a pervasive vulnerability, the <strong>Cartesian Shortcut</strong>: models frequently discretize the orthogonal grid-based layouts prevalent in visual reasoning benchmarks into explicit textual coordinates, offloading reasoning from visual perception to text-based deduction. To re-evaluate visual reasoning when this shortcut is unavailable, we introduce <strong>Polaris-Bench</strong>, which re-formulates <strong>53 visual reasoning tasks</strong> in Polar coordinate space with paired Cartesian counterparts that preserve task semantics, disrupting the orthogonal structure that models exploit. Comprehensive evaluation across 14 state-of-the-art MLLMs reveals that frontier models achieving 69&ndash;83% on Cartesian layouts collapse to 31&ndash;39% on Polar equivalents. Moreover, thinking gains largely vanish on Polar layouts, prompting interventions fail to close the gap, and comparable drops arise on other non-orthogonal layouts. These findings reveal that current MLLMs&rsquo; visual reasoning performance is strongly coupled to orthogonal grid structure, a fragility that is consistent across model families but far smaller in humans, who maintain 88.8% accuracy on Polar layouts.
       </p>
     </section>
 
@@ -99,10 +96,10 @@
           The Cartesian Shortcut
         </h2>
         <p class="text-[14px] text-slate-600 leading-relaxed mb-3">
-          When evaluated on grid-based visual tasks such as Sudoku, maze navigation, or graph coloring, state-of-the-art multimodal LLMs don't actually "see" the image as a visual structure. Instead, they systematically discretize the orthogonal grid layout into textual coordinates (e.g., "Row 3, Column 4"), converting what should be a visual reasoning problem into a text manipulation exercise. We call this behavior the <strong>Cartesian Shortcut</strong>.
+          When solving grid-based visual tasks such as Sudoku, maze navigation, or graph coloring, state-of-the-art MLLMs frequently discretize the orthogonal grid layout into explicit textual coordinates (e.g., "row 2", "(x,y)"), offloading reasoning from visual perception to text-based deduction. We call this behavior the <strong>Cartesian Shortcut</strong>.
         </p>
         <p class="text-[14px] text-slate-600 leading-relaxed">
-          We analyze over 3,800 reasoning traces produced by frontier models across 9 established visual reasoning benchmarks. Models explicitly invoke grid coordinates in <strong>over 56%</strong> of their Chain-of-Thought responses; on certain tasks, Gemini-3.1 Pro and GPT-5.2 invoke spatial discretization in 79.6% and 87.7% of traces, respectively. This confirms that high accuracy on Cartesian grid benchmarks is substantially inflated by text-based coordinate deduction rather than genuine visual understanding.
+          We analyze over 3,800 questions across 9 prominent visual reasoning benchmarks. Frontier models explicitly invoke textual coordinates in <strong>over 56%</strong> of their intermediate Chain-of-Thought reasoning; on Cartesian layouts, Gemini-3.1-Pro and GPT-5.2 invoke spatial discretization in 79.6% and 87.7% of their reasoning, respectively. By offloading reasoning from visual perception to text-based deduction, this shortcut confounds the evaluation of visual reasoning on grid-based benchmarks.
         </p>
       </div>
     </section>
@@ -116,10 +113,10 @@
       <div class="md:flex md:gap-6 md:items-start">
         <div class="w-full md:w-[70%]">
           <p class="text-[13px] text-slate-600 leading-relaxed mb-2.5">
-            To rigorously test whether models can reason about visual structure independently of grid coordinates, we introduce <strong>Polaris-Bench</strong>, a benchmark that re-formulates <strong>53 visual reasoning tasks</strong> in Polar coordinate space, each paired with a topologically equivalent Cartesian counterpart.
+            To rigorously test whether models can reason about visual structure independently of grid coordinates, we introduce <strong>Polaris-Bench</strong>, a benchmark that re-formulates <strong>53 visual reasoning tasks</strong> in Polar coordinate space, each paired with a Cartesian counterpart that preserves task semantics and serves as a controlled reference under consistent logical constraints.
           </p>
           <p class="text-[13px] text-slate-600 leading-relaxed">
-            Polar grids preserve the same structural relationships (adjacency, containment, connectivity) as Cartesian grids, but their curved, non-orthogonal layout makes coordinate-based text strategies ineffective. If a model truly understands the visual structure, its performance should remain consistent across coordinate systems. If it relies on the Cartesian Shortcut, its performance will collapse.
+            The Cartesian-to-Polar transformation disrupts the orthogonal structure underlying the Cartesian Shortcut, making it much harder to discretize the layout into textual coordinates. For most tasks the transformation is the only variable (fully aligned, with identical rules and ground truths); for a deliberately preserved subset, Polar angular wrapping alters the solution space (partially aligned). If model performance depends on orthogonal grid structure, accuracy should drop on the Polar counterparts.
           </p>
         </div>
         <div class="w-full md:w-[30%] md:flex-shrink-0 mt-4 md:mt-0">
@@ -141,18 +138,18 @@
         Key Findings
       </h2>
       <p class="text-[14px] text-slate-600 leading-relaxed mb-3">
-        We evaluate 14 state-of-the-art MLLMs on Polaris-Bench, including Gemini-3.1 Pro, GPT-5.2, Claude Sonnet 4.6, and open-weight models like Qwen3.5-397B and Gemma-4. If the Cartesian Shortcut hypothesis is correct, we should observe a dramatic performance drop when models are forced to reason in Polar space where coordinate-based text strategies no longer work.
+        We evaluate 14 state-of-the-art MLLMs on Polaris-Bench, including Gemini-3.1 Pro, GPT-5.2, Claude Sonnet 4.6, and open-weight models like Qwen3.5-397B and Gemma-4. We compare each model's accuracy on the Cartesian and Polar versions of every task, alongside a human reference.
       </p>
       <p class="text-[14px] text-slate-600 leading-relaxed mb-4">
-        The results confirm exactly this. As shown below (left), <strong>every evaluated model</strong> falls far below the topological invariance diagonal: Cartesian accuracy spans 19-83%, but Polar accuracy compresses into a narrow 19-39% band regardless of model capability, revealing a shared performance floor. Furthermore (right), reasoning mode gains that are substantial on Cartesian tasks (up to <strong>+50.8 pts</strong> for GPT-5.2) collapse to near zero on Polar, demonstrating that extended Chain-of-Thought reasoning primarily amplifies the Cartesian Shortcut rather than improving genuine visual understanding.
+        As shown below (left), <strong>every evaluated model</strong> falls below the equal-accuracy diagonal: frontier models achieving 69&ndash;83% on Cartesian layouts collapse to 31&ndash;39% on Polar equivalents, and while Cartesian accuracy spans 19&ndash;83% across models, Polar accuracy compresses into a narrow 19&ndash;39% band, suggesting a shared performance floor. Humans, by contrast, drop only 5.7 points (94.5% &rarr; 88.8%). The collapse persists on fully aligned tasks, where the coordinate transformation is the only variable. Furthermore (right), thinking gains that are substantial on Cartesian layouts (up to <strong>+50.8 pts</strong> for GPT-5.2) are systematically compressed on Polar layouts, with most models improving by fewer than 10 points, showing that thinking gains are strongly coupled to orthogonal grid structure.
       </p>
       <img src="static/figures/overall_performance.png" alt="Performance overview" class="w-full rounded-lg mb-4">
 
       <!-- Coordinate system comparison -->
       <div class="pt-4 border-t border-slate-100">
-        <h3 class="text-[16px] font-semibold text-slate-800 mb-2">Does the Performance Collapse Generalize Beyond Polar?</h3>
+        <h3 class="text-[16px] font-semibold text-slate-800 mb-2">Is the Gap Specific to Polar Layouts?</h3>
         <p class="text-[14px] text-slate-600 leading-relaxed mb-4">
-          To verify that the performance collapse is not an artifact of Polar coordinates specifically, we evaluate models on intermediate coordinate systems (Octagonal, Hexagonal) that progressively deviate from the orthogonal Cartesian layout. The results show a clear gradient: accuracy remains high on Cartesian and Octagonal (which still has near-orthogonal structure), then drops sharply on Hexagonal and Polar, confirming that the collapse tracks how far the layout deviates from the orthogonal grid that enables coordinate-based text strategies.
+          No. On Word Search, we compare Cartesian and Polar layouts with Octagonal and Hexagonal tilings. Octagonal tilings, which preserve local orthogonal adjacency, stay close to Cartesian accuracy, whereas Hexagonal and Polar layouts show large drops for most models. We further apply progressive geometric deformations to Cartesian images: for models with substantial Cartesian accuracy, a sine-wave deformation, which introduces neither wrap-around nor radial compression, already causes a large drop (e.g., Gemini-3.1-Pro: 89.0% &rarr; 44.0%), and accuracy approaches the Polar level by a 90&deg; arc. Comparable drops therefore arise without Polar-specific properties, on layouts that depart from the standard orthogonal grid.
         </p>
         <div class="md:flex md:gap-6 md:items-center">
           <div class="md:flex-1 flex flex-col items-center">
@@ -164,6 +161,14 @@
             <p class="text-[11px] text-slate-400 text-center mt-2">Word Search accuracy across 4 coordinate systems. The drop tracks deviation from orthogonal grid structure.</p>
           </div>
         </div>
+      </div>
+
+      <!-- Test-time guidance -->
+      <div class="pt-4 mt-4 border-t border-slate-100">
+        <h3 class="text-[16px] font-semibold text-slate-800 mb-2">Can Prompting Close the Gap?</h3>
+        <p class="text-[14px] text-slate-600 leading-relaxed">
+          No. On six tasks with large drops, we evaluate two test-time interventions across six models: (1) a <strong>conversion hint</strong> instructing the model to re-map the Polar layout onto a Cartesian grid before solving, and (2) <strong>5-shot in-context learning</strong> with solved Polar examples. Conversion hints change accuracy by less than 4 points relative to the Polar baseline, and 5-shot examples lower accuracy for five of the six models (e.g., GPT-5.2: 38.3% &rarr; 26.0%). Test-time instruction and demonstrations therefore do not close the gap between familiar orthogonal layouts and Polar layouts, which humans solve with a modest drop.
+        </p>
       </div>
     </section>
 

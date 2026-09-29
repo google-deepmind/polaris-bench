@@ -27,28 +27,30 @@ from evaluation.data_loader import PolarisDataLoader
 # Task categories mapping (53 tasks across 5 cognitive categories)
 TASK_CATEGORIES = {
     "Algorithmic Logic & Simulation": [
-        "sudoku", "four_color", "n_queens", "random_walk", "collision_detection", 
-        "bouncing_point"
+        "n_queens", "sudoku", "minimum_flips", "maximum_collection",
+        "collision_detection", "bouncing_point"
     ],
     "Combinatorics & Probability": [
-        "path_counting", "lattice_paths", "area_counting", "edge_counting", "uncut_cells", 
-        "maximum_collection", "longest_path", "largest_number_path", "curve_length"
+        "path_counting", "bounded_diagonal_paths", "bounded_knight_paths", "checkpoint_paths",
+        "lattice_paths", "wrapping_diagonal_paths", "knight_paths", "edge_counting",
+        "random_walk"
     ],
     "Navigation & Routing": [
-        "maze", "shortest_path", "bounded_path_finding", "wrapping_path_finding", 
-        "bounded_diagonal_paths", "wrapping_diagonal_paths", "bounded_knight_paths", 
-        "knight_paths", "checkpoint_paths", "monotonic_path", "rule_based_navigation", 
-        "absolute_navigation", "egocentric_navigation", "wrapping_navigation"
+        "maze", "shortest_path", "longest_path", "bounded_path_finding",
+        "wrapping_path_finding", "wrapping_navigation", "egocentric_navigation", "absolute_navigation",
+        "wall_follower", "rule_based_navigation", "monotonic_path", "turn_counting",
+        "word_search", "largest_number_path"
     ],
     "Spatial Transformation & Geometry": [
-        "grid_rotation", "pivot_rotation", "mirror_reflection", "grid_folding", 
-        "rotation_center", "rotation_matching", "area_balancing", "minimum_flips", 
-        "wall_follower", "letter_collection", "turn_counting", "pipe_lengths", "word_search"
+        "rotation_matching", "mirror_reflection", "grid_rotation", "rotation_center",
+        "pivot_rotation", "impossible_shape", "grid_folding", "four_color",
+        "area_counting", "pipe_lengths", "uncut_cells", "area_balancing",
+        "curve_length"
     ],
     "Visual Pattern Matching": [
-        "pattern_completion", "pattern_prediction", "layer_completion", "shape_completion", 
-        "shape_fitting", "jigsaw_matching", "odd_piece_out", "fragment_matching", 
-        "anomaly_detection", "template_matching", "impossible_shape"
+        "pattern_completion", "shape_fitting", "layer_completion", "fragment_matching",
+        "template_matching", "jigsaw_matching", "shape_completion", "odd_piece_out",
+        "anomaly_detection", "letter_collection", "pattern_prediction"
     ]
 }
 

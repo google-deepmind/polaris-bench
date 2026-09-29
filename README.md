@@ -36,13 +36,13 @@ Current Multimodal Large Language Models (MLLMs) achieve strong performance on v
 </p>
 
 
-Standard visual reasoning benchmarks are predominantly structured around orthogonal, grid-based Cartesian layouts. We find that state-of-the-art models systematically exploit this structure: rather than performing true visual-spatial reasoning, they discretize 2D images into explicit textual coordinates (such as row and column indices) and offload spatial deduction onto pure text-based reasoning. This text-based shortcut inflates benchmark scores while masking critical deficiencies in genuine visual understanding.
+Many prominent visual reasoning benchmarks are built on orthogonal, grid-based layouts that can be readily discretized into explicit textual coordinates. We find that frontier models frequently exploit this property: across over 3,800 questions from 9 prominent visual reasoning benchmarks, they explicitly invoke textual coordinates (e.g., "row 2", "(x,y)") in over 56% of intermediate Chain-of-Thought reasoning, offloading reasoning from visual perception to text-based deduction. This shortcut confounds the evaluation of visual reasoning on grid-based testbeds.
 
 ### Polaris-Bench
 
-To dismantle the Cartesian Shortcut, we introduce **Polaris-Bench**, an evaluation benchmark that re-formulates 53 visual reasoning tasks across 5 cognitive categories into **Polar coordinate space**, paired directly with their Cartesian counterparts under identical logical constraints and rules. In Polar space, lines of constant coordinate curvature bend, distance metrics depend on radius, and coordinate discretization becomes non-trivial.
+To re-evaluate visual reasoning when this shortcut is unavailable, we introduce **Polaris-Bench**, which re-formulates 53 visual reasoning tasks across 5 cognitive categories in **Polar coordinate space**, each paired with a Cartesian counterpart that preserves task semantics and serves as a controlled reference under consistent logical constraints. The Polar layout disrupts the orthogonal structure that models exploit.
 
-Under this controlled setting, frontier models that achieve 70-83% accuracy on Cartesian layouts experience a dramatic performance collapse to 31-39% on logically equivalent Polar tasks, while human performance remains robust (94.5% Cartesian vs. 88.8% Polar).
+Across 14 state-of-the-art MLLMs, frontier models achieving 69–83% on Cartesian layouts collapse to 31–39% on Polar equivalents, while humans drop only 5.7 points (94.5% → 88.8%). Thinking gains largely vanish on Polar layouts, prompting interventions (conversion hints, 5-shot in-context examples) fail to close the gap, and comparable drops arise on other non-orthogonal layouts (hexagonal tilings, wave and arc deformations). These findings show that current MLLMs’ visual reasoning performance is strongly coupled to orthogonal grid structure.
 
 
 <p align="center">
@@ -270,11 +270,11 @@ Each record contains 6 fields (+ `image` in the HuggingFace Parquet version):
 
 | Category | Tasks | Count |
 |----------|-------|:-----:|
-| **Visual Pattern Matching** | pattern_completion, pattern_prediction, layer_completion, shape_completion, shape_fitting, jigsaw_matching, odd_piece_out, fragment_matching, anomaly_detection, template_matching, impossible_shape | 11 |
-| **Spatial Transformation & Geometry** | grid_rotation, pivot_rotation, mirror_reflection, grid_folding, rotation_center, rotation_matching, area_balancing, minimum_flips, wall_follower, letter_collection, turn_counting, pipe_lengths, word_search | 13 |
-| **Navigation & Routing** | maze, shortest_path, bounded_path_finding, wrapping_path_finding, bounded_diagonal_paths, wrapping_diagonal_paths, bounded_knight_paths, knight_paths, checkpoint_paths, monotonic_path, rule_based_navigation, absolute_navigation, egocentric_navigation, wrapping_navigation | 14 |
-| **Combinatorics & Probability** | path_counting, lattice_paths, area_counting, edge_counting, uncut_cells, maximum_collection, longest_path, largest_number_path, curve_length | 9 |
-| **Algorithmic Logic & Simulation** | sudoku, four_color, n_queens, random_walk, collision_detection, bouncing_point | 6 |
+| **Visual Pattern Matching** | pattern_completion, shape_fitting, layer_completion, fragment_matching, template_matching, jigsaw_matching, shape_completion, odd_piece_out, anomaly_detection, letter_collection, pattern_prediction | 11 |
+| **Spatial Transformation & Geometry** | rotation_matching, mirror_reflection, grid_rotation, rotation_center, pivot_rotation, impossible_shape, grid_folding, four_color, area_counting, pipe_lengths, uncut_cells, area_balancing, curve_length | 13 |
+| **Navigation & Routing** | maze, shortest_path, longest_path, bounded_path_finding, wrapping_path_finding, wrapping_navigation, egocentric_navigation, absolute_navigation, wall_follower, rule_based_navigation, monotonic_path, turn_counting, word_search, largest_number_path | 14 |
+| **Combinatorics & Probability** | path_counting, bounded_diagonal_paths, bounded_knight_paths, checkpoint_paths, lattice_paths, wrapping_diagonal_paths, knight_paths, edge_counting, random_walk | 9 |
+| **Algorithmic Logic & Simulation** | n_queens, sudoku, minimum_flips, maximum_collection, collision_detection, bouncing_point | 6 |
 
 ## Citation
 

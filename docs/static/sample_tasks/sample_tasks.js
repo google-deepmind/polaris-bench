@@ -20,8 +20,8 @@ window.sampleTasksData = [
   {
     "id": "four_color",
     "name": "Four Color",
-    "category": "algo",
-    "category_name": "Algorithmic Logic & Simulation",
+    "category": "spatial",
+    "category_name": "Spatial Transformation & Geometry",
     "index": "four_color_001",
     "answer": "A",
     "cartesian": {
@@ -110,8 +110,8 @@ window.sampleTasksData = [
   {
     "id": "area_counting",
     "name": "Area Counting",
-    "category": "comb",
-    "category_name": "Combinatorics & Probability",
+    "category": "spatial",
+    "category_name": "Spatial Transformation & Geometry",
     "index": "area_counting_001",
     "answer": "29",
     "cartesian": {
@@ -128,8 +128,8 @@ window.sampleTasksData = [
   {
     "id": "curve_length",
     "name": "Curve Length",
-    "category": "comb",
-    "category_name": "Combinatorics & Probability",
+    "category": "spatial",
+    "category_name": "Spatial Transformation & Geometry",
     "index": "curve_length_001",
     "answer": "C",
     "cartesian": {
